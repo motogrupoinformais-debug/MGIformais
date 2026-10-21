@@ -17,43 +17,20 @@
             theme: {
                 extend: {
                     colors: {
-                        dark: {
-                            900: '#0a0a0a',
-                            800: '#121212',
-                            700: '#1e1e1e',
-                            600: '#2a2a2a',
-                            500: '#3a3a3a'
-                        },
-                        accent: {
-                            gold: '#d4af37',
-                            orange: '#ff6b00',
-                            red: '#dc2626'
-                        }
+                        dark: { 900: '#0a0a0a', 800: '#121212', 700: '#1e1e1e', 600: '#2a2a2a', 500: '#3a3a3a' },
+                        accent: { gold: '#d4af37', orange: '#ff6b00', red: '#dc2626' }
                     },
-                    fontFamily: {
-                        heading: ['Montserrat', 'sans-serif'],
-                        body: ['Inter', 'sans-serif']
-                    }
+                    fontFamily: { heading: ['Montserrat', 'sans-serif'], body: ['Inter', 'sans-serif'] }
                 }
             }
         }
     </script>
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #0a0a0a; 
-            color: #e5e5e5; 
-        }
-
-        /* Classe de Fundo com a Bandeira */
+        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #e5e5e5; }
         .bg-bandeira {
             background-image: linear-gradient(rgba(10, 10, 10, 0.88), rgba(10, 10, 10, 0.88)), url('bandeira.jpg');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background-size: contain; background-position: center; background-repeat: no-repeat; background-attachment: fixed;
         }
-
         h1, h2, h3, .font-heading { font-family: 'Montserrat', sans-serif; }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #121212; }
@@ -87,12 +64,16 @@
                 </div>
             </div>
 
-            <div class="px-6 py-4 bg-dark-700/50 border-b border-dark-600/50 flex items-center justify-between">
-                <div class="flex items-center space-x-2">
-                    <span id="pinStatusDot" class="w-2.5 h-2.5 bg-gray-500 rounded-full"></span>
-                    <span id="pinStatusText" class="text-xs font-semibold text-gray-400">Modo Leitura</span>
+            <!-- Identificação do Usuário Logado -->
+            <div class="px-6 py-4 bg-dark-700/50 border-b border-dark-600/50 space-y-2">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span id="pinStatusDot" class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
+                        <span id="userLoggedName" class="text-xs font-bold text-white truncate max-w-[120px]">Visitante</span>
+                    </div>
+                    <button onclick="fazerLoginLogout()" id="btnLoginLogout" class="text-xs bg-amber-500 text-dark-900 font-bold px-2 py-1 rounded hover:bg-amber-600 transition">Login</button>
                 </div>
-                <button onclick="autenticarPIN()" class="text-xs text-amber-500 hover:underline">Liberar Admin (PIN)</button>
+                <p id="userLoggedRole" class="text-[10px] text-gray-400">Modo Leitura</p>
             </div>
 
             <nav class="p-4 space-y-1">
@@ -103,7 +84,10 @@
                     <i class="fa-solid fa-users w-5"></i><span>Membros</span>
                 </button>
                 <button onclick="switchTab('eventos')" id="nav-eventos" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-400 hover:text-white hover:bg-dark-700/50 transition">
-                    <i class="fa-solid fa-calendar-check w-5"></i><span>Eventos & Presença</span>
+                    <i class="fa-solid fa-calendar-check w-5"></i><span>Eventos</span>
+                </button>
+                <button onclick="switchTab('reuniao')" id="nav-reuniao" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-400 hover:text-white hover:bg-dark-700/50 transition">
+                    <i class="fa-solid fa-handshake w-5"></i><span>Reunião</span>
                 </button>
                 <button onclick="switchTab('financeiro')" id="nav-financeiro" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-400 hover:text-white hover:bg-dark-700/50 transition">
                     <i class="fa-solid fa-sack-dollar w-5"></i><span>Financeiro & Rateios</span>
@@ -136,54 +120,35 @@
                 </div>
                 <div class="flex items-center space-x-3">
                     <button onclick="openModal('modalMembro')" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2 shadow-lg shadow-amber-500/10">
-                        <i class="fa-solid fa-user-plus"></i><span>+ Adicionar Integrante</span>
+                        <i class="fa-solid fa-user-plus"></i><span>+ Cadastrar Integrante</span>
                     </button>
                 </div>
             </div>
 
+            <!-- Cards Resumo das Fatias & Caixa -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Total de Membros</p>
-                        <h3 id="dash-membros-count" class="text-3xl font-heading font-black text-white mt-1">0</h3>
-                        <span class="text-xs text-green-400 flex items-center mt-1"><i class="fa-solid fa-check-circle mr-1"></i> Ativos</span>
-                    </div>
-                    <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-xl flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-id-card"></i>
-                    </div>
+                <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600">
+                    <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Saldo em Caixa</p>
+                    <h3 id="dash-saldo" class="text-2xl font-heading font-black text-green-400 mt-1">R$ 0,00</h3>
+                    <span class="text-[10px] text-gray-400 block mt-1">Total Acumulado</span>
                 </div>
 
-                <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Saldo em Caixa</p>
-                        <h3 id="dash-saldo" class="text-3xl font-heading font-black text-green-400 mt-1">R$ 0,00</h3>
-                        <span class="text-xs text-gray-400 mt-1 block">Caixa do Grupo</span>
-                    </div>
-                    <div class="w-12 h-12 bg-green-500/10 text-green-500 rounded-xl flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
+                <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600">
+                    <p class="text-xs font-medium text-amber-500 uppercase tracking-wider">Fatia 1 (70% - Lazer)</p>
+                    <h3 id="dash-fatia1" class="text-xl font-heading font-bold text-white mt-1">R$ 0,00</h3>
+                    <span class="text-[10px] text-gray-400 block mt-1">R$ 28,00/membro</span>
                 </div>
 
-                <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Arrecadado Mês</p>
-                        <h3 id="dash-recebido-mes" class="text-2xl font-heading font-bold text-amber-500 mt-1">R$ 0,00</h3>
-                        <span id="dash-total-previsto" class="text-xs text-gray-400 mt-1 block">Previsto: R$ 0,00</span>
-                    </div>
-                    <div class="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-xl flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-sack-dollar"></i>
-                    </div>
+                <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600">
+                    <p class="text-xs font-medium text-blue-400 uppercase tracking-wider">Fatia 2 (20% - Patrimônio)</p>
+                    <h3 id="dash-fatia2" class="text-xl font-heading font-bold text-white mt-1">R$ 0,00</h3>
+                    <span class="text-[10px] text-gray-400 block mt-1">R$ 8,00/membro</span>
                 </div>
 
-                <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600 flex items-center justify-between">
-                    <div>
-                        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Aniversários (Mês)</p>
-                        <h3 id="dash-aniversarios-count" class="text-3xl font-heading font-black text-amber-500 mt-1">0</h3>
-                        <span class="text-xs text-gray-400 mt-1 block">Irmãos de data</span>
-                    </div>
-                    <div class="w-12 h-12 bg-purple-500/10 text-purple-500 rounded-xl flex items-center justify-center text-xl">
-                        <i class="fa-solid fa-cake-candles"></i>
-                    </div>
+                <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600">
+                    <p class="text-xs font-medium text-red-400 uppercase tracking-wider">Fatia 3 (10% - Emergência)</p>
+                    <h3 id="dash-fatia3" class="text-xl font-heading font-bold text-white mt-1">R$ 0,00</h3>
+                    <span class="text-[10px] text-gray-400 block mt-1">R$ 4,00/membro</span>
                 </div>
             </div>
 
@@ -201,7 +166,7 @@
                 <div class="bg-dark-800/80 backdrop-blur-md p-6 rounded-2xl border border-dark-600">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-heading font-bold text-lg text-white flex items-center">
-                            <i class="fa-solid fa-receipt text-green-500 mr-2"></i> Lançamentos Recentes no Caixa
+                            <i class="fa-solid fa-receipt text-green-500 mr-2"></i> Extrato de Gastos e Caixa
                         </h3>
                         <button onclick="switchTab('financeiro')" class="text-xs text-amber-500 hover:underline">Ver Extrato</button>
                     </div>
@@ -215,27 +180,17 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Integrantes do Grupo</h2>
-                    <p class="text-sm text-gray-400">Clique sobre o nome do integrante para ver todas as informações completas</p>
+                    <p class="text-sm text-gray-400">Gerenciamento dos membros e nomes de guerra</p>
                 </div>
                 <button onclick="openModal('modalMembro')" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
-                    <i class="fa-solid fa-plus"></i><span>+ Adicionar Integrante</span>
+                    <i class="fa-solid fa-plus"></i><span>+ Cadastrar Integrante</span>
                 </button>
             </div>
 
             <div class="bg-dark-800/80 backdrop-blur-md p-4 rounded-2xl border border-dark-600 flex flex-col sm:flex-row gap-4 justify-between">
                 <div class="relative flex-1">
                     <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
-                    <input type="text" id="membroSearch" oninput="renderMembros()" placeholder="Buscar por nome, apelido, moto ou placa..." class="w-full pl-10 pr-4 py-2 bg-dark-700 border border-dark-600 rounded-xl text-white text-sm focus:outline-none focus:border-amber-500">
-                </div>
-                <div class="flex gap-2">
-                    <select id="membroCargoFilter" onchange="renderMembros()" class="bg-dark-700 border border-dark-600 text-white text-sm rounded-xl px-3 py-2 focus:outline-none focus:border-amber-500">
-                        <option value="">Todos os Cargos</option>
-                        <option value="Presidente Fundador">Presidente Fundador</option>
-                        <option value="Vice Presidente">Vice Presidente</option>
-                        <option value="Diretor">Diretor</option>
-                        <option value="Membro Efetivo">Membro Efetivo</option>
-                        <option value="Prospecto">Prospecto</option>
-                    </select>
+                    <input type="text" id="membroSearch" oninput="renderMembros()" placeholder="Buscar por Nome de Guerra, moto ou placa..." class="w-full pl-10 pr-4 py-2 bg-dark-700 border border-dark-600 rounded-xl text-white text-sm focus:outline-none focus:border-amber-500">
                 </div>
             </div>
 
@@ -244,12 +199,12 @@
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-dark-700/80 text-gray-400 text-xs uppercase tracking-wider border-b border-dark-600">
-                                <th class="p-4">Nome (Clique p/ detalhes)</th>
+                                <th class="p-4">Nome de Guerra / Nome</th>
                                 <th class="p-4">Cargo</th>
                                 <th class="p-4">Motocicleta(s)</th>
                                 <th class="p-4">Contato / Emergência</th>
                                 <th class="p-4">Status</th>
-                                <th class="p-4 text-right">Ações (Requer PIN)</th>
+                                <th class="p-4 text-right">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="membrosTableBody" class="divide-y divide-dark-600 text-sm"></tbody>
@@ -258,12 +213,12 @@
             </div>
         </section>
 
-        <!-- TAB 3: EVENTOS & PRESENÇA -->
+        <!-- TAB 3: EVENTOS -->
         <section id="tab-eventos" class="hidden space-y-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Eventos & Presença</h2>
-                    <p class="text-sm text-gray-400">Todos os membros podem criar novos eventos</p>
+                    <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Eventos</h2>
+                    <p class="text-sm text-gray-400">Todos os membros podem incluir eventos e marcar presença</p>
                 </div>
                 <button onclick="openModal('modalEvento')" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
                     <i class="fa-solid fa-plus"></i><span>Criar Evento</span>
@@ -272,38 +227,75 @@
             <div id="eventosList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </section>
 
-        <!-- TAB 4: FINANCEIRO & RATEIOS -->
+        <!-- TAB 4: REUNIÃO -->
+        <section id="tab-reuniao" class="hidden space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Reuniões da Diretoria e Grupo</h2>
+                    <p class="text-sm text-gray-400">Cronograma de reuniões organizadas em ordem de data</p>
+                </div>
+                <button onclick="executarAcaoRestrita(() => openModal('modalReuniao'))" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
+                    <i class="fa-solid fa-plus"></i><span>Agendar Reunião</span>
+                </button>
+            </div>
+            <div id="reuniaoList" class="space-y-4"></div>
+        </section>
+
+        <!-- TAB 5: FINANCEIRO & RATEIOS -->
         <section id="tab-financeiro" class="hidden space-y-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Gestão Financeira & Rateios</h2>
-                    <p class="text-sm text-gray-400">Mensalidades (R$ 40,00) e controle de caixa (Alterações via PIN 2206)</p>
+                    <p class="text-sm text-gray-400">Mensalidades (R$ 40,00) com distribuição automatizada nas 3 Fatias</p>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="executarComPIN(() => openModal('modalTransacao'))" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
-                        <i class="fa-solid fa-plus"></i><span>Novo Lançamento no Caixa</span>
+                    <button onclick="executarAcaoRestrita(() => openModal('modalGasto'))" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-minus-circle"></i><span>Lançar Gasto (Categorias 1, 2, 3)</span>
+                    </button>
+                    <button onclick="executarAcaoRestrita(() => openModal('modalTransacao'))" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-plus"></i><span>Lançar Entrada Extra</span>
                     </button>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Tabela de Controle de Mensalidades Mês a Mês -->
-                <div class="lg:col-span-2 bg-dark-800/80 backdrop-blur-md p-6 rounded-2xl border border-dark-600 space-y-4">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-dark-600 pb-3">
-                        <h3 class="font-heading font-bold text-lg text-white flex items-center">
-                            <i class="fa-solid fa-calendar-check text-amber-500 mr-2"></i> Controle de Mensalidade dos Membros
-                        </h3>
-                        <span class="text-xs bg-amber-500/10 text-amber-500 font-bold px-3 py-1 rounded-full">R$ 40,00 / Mês</span>
+            <!-- Resumo Didático das Fatias -->
+            <div class="bg-dark-800/90 border border-dark-600 p-5 rounded-2xl space-y-3">
+                <h3 class="text-sm font-bold text-amber-500 uppercase tracking-wider flex items-center">
+                    <i class="fa-solid fa-pie-chart mr-2"></i> Resumo Didático das Fatias (R$ 40,00 total por membro)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="p-3 bg-dark-700/50 rounded-xl border border-amber-500/30">
+                        <span class="font-bold text-amber-400 block text-sm">Fatia 1 (70%) - R$ 28,00 / Mês</span>
+                        <p class="text-gray-300 mt-1"><b>Finalidade:</b> Lazer, Integração e Eventos</p>
+                        <p class="text-gray-400 mt-0.5"><b>Exemplo:</b> Churrascos, festas do grupo e recepção de motociclistas.</p>
                     </div>
+                    <div class="p-3 bg-dark-700/50 rounded-xl border border-blue-500/30">
+                        <span class="font-bold text-blue-400 block text-sm">Fatia 2 (20%) - R$ 8,00 / Mês</span>
+                        <p class="text-gray-300 mt-1"><b>Finalidade:</b> Poupança e Patrimônio</p>
+                        <p class="text-gray-400 mt-0.5"><b>Exemplo:</b> Bens para a sede, bandeiras e reformas.</p>
+                    </div>
+                    <div class="p-3 bg-dark-700/50 rounded-xl border border-red-500/30">
+                        <span class="font-bold text-red-400 block text-sm">Fatia 3 (10%) - R$ 4,00 / Mês</span>
+                        <p class="text-gray-300 mt-1"><b>Finalidade:</b> Emergências e Imprevistos</p>
+                        <p class="text-gray-400 mt-0.5"><b>Exemplo:</b> Socorro imediato, consertos urgentes e taxas.</p>
+                    </div>
+                </div>
+            </div>
 
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Tabela Mensalidades -->
+                <div class="lg:col-span-2 bg-dark-800/80 backdrop-blur-md p-6 rounded-2xl border border-dark-600 space-y-4">
+                    <div class="flex justify-between items-center border-b border-dark-600 pb-3">
+                        <h3 class="font-heading font-bold text-lg text-white">Controle de Mensalidades (Nome de Guerra)</h3>
+                        <span class="text-xs bg-amber-500/10 text-amber-500 font-bold px-3 py-1 rounded-full">R$ 40,00</span>
+                    </div>
                     <div class="overflow-x-auto max-h-96 overflow-y-auto">
                         <table class="w-full text-left">
                             <thead class="bg-dark-700/80 text-xs text-gray-400 sticky top-0">
                                 <tr>
-                                    <th class="p-3">Integrante</th>
-                                    <th class="p-3">Cargo</th>
-                                    <th class="p-3">Status do Mês</th>
-                                    <th class="p-3 text-right">Confirmar (PIN 2206)</th>
+                                    <th class="p-3">Nome de Guerra</th>
+                                    <th class="p-3">Status Mês</th>
+                                    <th class="p-3 text-right">Confirmar Pago (Sem Duplicar)</th>
                                 </tr>
                             </thead>
                             <tbody id="mensalidadesTable" class="divide-y divide-dark-600 text-sm"></tbody>
@@ -313,56 +305,33 @@
 
                 <!-- Extrato do Caixa -->
                 <div class="bg-dark-800/80 backdrop-blur-md p-6 rounded-2xl border border-dark-600 space-y-4">
-                    <h3 class="font-heading font-bold text-lg text-white flex items-center border-b border-dark-600 pb-3">
-                        <i class="fa-solid fa-list-check text-green-500 mr-2"></i> Extrato do Caixa
-                    </h3>
+                    <h3 class="font-heading font-bold text-lg text-white border-b border-dark-600 pb-3">Extrato do Caixa & Gastos</h3>
                     <div id="transacoesList" class="space-y-3 max-h-96 overflow-y-auto pr-1"></div>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 5: ANIVERSÁRIOS -->
+        <!-- TAB 6: ANIVERSÁRIOS -->
         <section id="tab-aniversarios" class="hidden space-y-6">
             <div>
                 <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Aniversariantes do Mês</h2>
-                <p class="text-sm text-gray-400">Parabenização direta no WhatsApp do irmão de estrada</p>
+                <p class="text-sm text-gray-400">Envio de felicitações diretas no WhatsApp</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="aniversariantesGrid"></div>
         </section>
 
-        <!-- TAB 6: PASSEIOS & ROTEIROS -->
+        <!-- TAB 7: PASSEIOS & ROTEIROS -->
         <section id="tab-passeios" class="hidden space-y-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Passeios & Roteiros</h2>
-                    <p class="text-sm text-gray-400">Inclusão aberta a todos os membros do grupo</p>
+                    <p class="text-sm text-gray-400">Roteiros detalhados com paradas, horários e pedágio</p>
                 </div>
                 <button onclick="openModal('modalPasseio')" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
                     <i class="fa-solid fa-route"></i><span>Novo Roteiro</span>
                 </button>
             </div>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 space-y-6" id="passeiosList"></div>
-                <div class="bg-dark-800/80 backdrop-blur-md p-6 rounded-2xl border border-dark-600 space-y-4 h-fit">
-                    <h3 class="font-heading font-bold text-lg text-white flex items-center text-amber-500">
-                        <i class="fa-solid fa-clipboard-check mr-2"></i> Checklist Obrigações do Comboio
-                    </h3>
-                    <div class="space-y-3 text-sm">
-                        <label class="flex items-center space-x-3 p-3 bg-dark-700/50 rounded-xl cursor-pointer hover:bg-dark-700 transition">
-                            <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
-                            <span>Tanque cheio no ponto de partida</span>
-                        </label>
-                        <label class="flex items-center space-x-3 p-3 bg-dark-700/50 rounded-xl cursor-pointer hover:bg-dark-700 transition">
-                            <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
-                            <span>Equipamento de Proteção Obrigatório</span>
-                        </label>
-                        <label class="flex items-center space-x-3 p-3 bg-dark-700/50 rounded-xl cursor-pointer hover:bg-dark-700 transition">
-                            <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
-                            <span>Documentação (CNH e CRLV) em dia</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
+            <div id="passeiosList" class="grid grid-cols-1 gap-6"></div>
         </section>
 
     </main>
@@ -371,20 +340,18 @@
     <div id="modalMembro" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-dark-800 border border-dark-600 w-full max-w-2xl rounded-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center border-b border-dark-600 pb-3">
-                <h3 class="font-heading font-bold text-lg text-white" id="modalMembroTitle">+ Cadastrar Integrante</h3>
+                <h3 class="font-heading font-bold text-lg text-white">+ Cadastrar Integrante</h3>
                 <button onclick="closeModal('modalMembro')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
             <form id="formMembro" onsubmit="salvarMembro(event)" class="space-y-4">
-                <input type="hidden" id="membroId">
-                
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 mb-1">Nome Completo</label>
                         <input type="text" id="membroNome" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Apelido (Colete/Nome Grupo)</label>
-                        <input type="text" id="membroApelido" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <label class="block text-xs font-semibold text-amber-500 mb-1">Nome de Guerra</label>
+                        <input type="text" id="membroNomeGuerra" required placeholder="Ex: Cacá, Marquinhos..." class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                 </div>
 
@@ -400,305 +367,333 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">WhatsApp (DDD + Número)</label>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">WhatsApp</label>
                         <input type="text" id="membroTelefone" required placeholder="21999999999" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Contato de Emergência</label>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Tel. Emergência</label>
                         <input type="text" id="membroEmergencia" required placeholder="Nome e Telefone" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Data de Nascimento</label>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Data Nascimento</label>
                         <input type="date" id="membroNascimento" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">PIN/Senha Pessoal de Acesso</label>
-                        <input type="password" id="membroSenha" required placeholder="Senha individual" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Senha Individual</label>
+                        <input type="password" id="membroSenha" required placeholder="Senha de acesso" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                 </div>
 
-                <!-- DADOS VEÍCULO 1 -->
-                <div class="p-4 bg-dark-700/50 rounded-xl border border-dark-600 space-y-3">
-                    <h4 class="text-xs font-bold text-amber-500 uppercase tracking-wider"><i class="fa-solid fa-motorcycle mr-1"></i> Veículo Principal (Moto 1)</h4>
-                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                        <div class="col-span-2">
-                            <input type="text" id="v1Modelo" placeholder="Modelo (Ex: CB 500X)" required class="w-full bg-dark-800 border border-dark-600 rounded-lg p-2 text-xs text-white">
-                        </div>
-                        <div>
-                            <input type="text" id="v1Cor" placeholder="Cor" required class="w-full bg-dark-800 border border-dark-600 rounded-lg p-2 text-xs text-white">
-                        </div>
-                        <div>
-                            <input type="text" id="v1Placa" placeholder="Placa" required class="w-full bg-dark-800 border border-dark-600 rounded-lg p-2 text-xs text-white">
-                        </div>
-                        <div>
-                            <select id="v1Funcao" class="w-full bg-dark-800 border border-dark-600 rounded-lg p-2 text-xs text-white">
-                                <option value="Piloto">Piloto</option>
-                                <option value="Garupa">Garupa</option>
-                            </select>
-                        </div>
+                <!-- VEÍCULO 1 -->
+                <div class="p-3 bg-dark-700/50 rounded-xl border border-dark-600 space-y-2">
+                    <span class="text-xs font-bold text-amber-500 uppercase block">Moto 1 (Principal)</span>
+                    <div class="grid grid-cols-4 gap-2 text-xs">
+                        <input type="text" id="v1Modelo" placeholder="Modelo" required class="bg-dark-800 border border-dark-600 p-2 rounded text-white">
+                        <input type="text" id="v1Cor" placeholder="Cor" required class="bg-dark-800 border border-dark-600 p-2 rounded text-white">
+                        <input type="text" id="v1Placa" placeholder="Placa" required class="bg-dark-800 border border-dark-600 p-2 rounded text-white">
+                        <select id="v1Funcao" class="bg-dark-800 border border-dark-600 p-2 rounded text-white">
+                            <option value="Piloto">Piloto</option>
+                            <option value="Garupa">Garupa</option>
+                        </select>
                     </div>
                 </div>
 
-                <!-- DADOS VEÍCULO 2 (OPCIONAL) -->
-                <div class="p-4 bg-dark-700/50 rounded-xl border border-dark-600 space-y-3">
-                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider"><i class="fa-solid fa-motorcycle mr-1"></i> Veículo Secundário (Moto 2 / Opcional)</h4>
-                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                        <div class="col-span-2">
-                            <input type="text" id="v2Modelo" placeholder="Modelo (Ex: Shadow 750)" class="w-full bg-dark-800 border border-dark-600 rounded-lg p-2 text-xs text-white">
-                        </div>
-                        <div>
-                            <input type="text" id="v2Cor" placeholder="Cor" class="w-full bg-dark-800 border border-dark-600 rounded-lg p-2 text-xs text-white">
-                        </div>
-                        <div>
-                            <input type="text" id="v2Placa" placeholder="Placa" class="w-full bg-dark-800 border border-dark-600 rounded-lg p-2 text-xs text-white">
-                        </div>
-                        <div>
-                            <select id="v2Funcao" class="w-full bg-dark-800 border border-dark-600 rounded-lg p-2 text-xs text-white">
-                                <option value="Piloto">Piloto</option>
-                                <option value="Garupa">Garupa</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex justify-end space-x-3 pt-2 border-t border-dark-600">
-                    <button type="button" onclick="closeModal('modalMembro')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold hover:bg-dark-600">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold hover:bg-amber-600">Salvar Integrante</button>
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closeModal('modalMembro')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold">Salvar Integrante</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL DETALHES COMPLETOS DO INTEGRANTE -->
-    <div id="modalDetalhesMembro" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-dark-800 border border-dark-600 w-full max-w-lg rounded-2xl p-6 space-y-4">
-            <div class="flex justify-between items-center border-b border-dark-600 pb-3">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center font-bold text-lg" id="detAbreviacao"></div>
-                    <div>
-                        <h3 class="font-heading font-bold text-lg text-white" id="detNome"></h3>
-                        <span class="text-xs text-amber-500 font-semibold" id="detApelido"></span>
-                    </div>
-                </div>
-                <button onclick="closeModal('modalDetalhesMembro')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            </div>
-
-            <div class="space-y-3 text-sm">
-                <div class="grid grid-cols-2 gap-2 bg-dark-700/50 p-3 rounded-xl">
-                    <div><span class="text-xs text-gray-400 block">Cargo:</span> <span class="font-semibold text-white" id="detCargo"></span></div>
-                    <div><span class="text-xs text-gray-400 block">Status no Grupo:</span> <span class="font-semibold" id="detStatus"></span></div>
-                </div>
-
-                <div class="bg-dark-700/50 p-3 rounded-xl space-y-1">
-                    <span class="text-xs text-gray-400 block">Contatos:</span>
-                    <p class="text-white"><i class="fa-brands fa-whatsapp text-green-400 mr-2"></i><span id="detTelefone"></span></p>
-                    <p class="text-red-400"><i class="fa-solid fa-phone-flip mr-2"></i>Emergência: <span id="detEmergencia"></span></p>
-                </div>
-
-                <div class="bg-dark-700/50 p-3 rounded-xl space-y-2">
-                    <span class="text-xs text-amber-500 font-bold uppercase block"><i class="fa-solid fa-motorcycle mr-1"></i> Veículo 1 (Principal):</span>
-                    <p class="text-white text-xs" id="detV1"></p>
-                </div>
-
-                <div class="bg-dark-700/50 p-3 rounded-xl space-y-2" id="boxV2">
-                    <span class="text-xs text-gray-400 font-bold uppercase block"><i class="fa-solid fa-motorcycle mr-1"></i> Veículo 2 (Secundário):</span>
-                    <p class="text-white text-xs" id="detV2"></p>
-                </div>
-
-                <div class="bg-dark-700/50 p-3 rounded-xl flex justify-between items-center">
-                    <span class="text-xs text-gray-400">Mensalidade Mês Atual:</span>
-                    <span id="detMensalidadeStatus" class="px-2.5 py-1 rounded-full text-xs font-bold"></span>
-                </div>
-            </div>
-
-            <div class="pt-2 text-right">
-                <button onclick="closeModal('modalDetalhesMembro')" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-xs font-bold">Fechar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL NOVO EVENTO -->
-    <div id="modalEvento" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <!-- MODAL CRIAR REUNIÃO -->
+    <div id="modalReuniao" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-dark-800 border border-dark-600 w-full max-w-md rounded-2xl p-6 space-y-4">
             <div class="flex justify-between items-center border-b border-dark-600 pb-3">
-                <h3 class="font-heading font-bold text-lg text-white">Criar Evento / Encontro</h3>
-                <button onclick="closeModal('modalEvento')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                <h3 class="font-heading font-bold text-lg text-white">Agendar Reunião</h3>
+                <button onclick="closeModal('modalReuniao')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <form id="formEvento" onsubmit="salvarEvento(event)" class="space-y-4">
+            <form id="formReuniao" onsubmit="salvarReuniao(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Título do Evento</label>
-                    <input type="text" id="eventoTitulo" required placeholder="Ex: Reunião Mensal ou Encontro do Mês" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Assunto</label>
+                    <input type="text" id="reuniaoAssunto" required placeholder="Ex: Pauta sobre novos uniformes" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 mb-1">Data</label>
-                        <input type="date" id="eventoData" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <input type="date" id="reuniaoData" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 mb-1">Horário</label>
-                        <input type="time" id="eventoHora" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <input type="time" id="reuniaoHora" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 mb-1">Local</label>
-                    <input type="text" id="eventoLocal" required placeholder="Ex: Sede Informais MG" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="text" id="reuniaoLocal" required placeholder="Ex: Sede do Moto Grupo" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div class="flex justify-end space-x-3 pt-2">
-                    <button type="button" onclick="closeModal('modalEvento')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold hover:bg-dark-600">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold hover:bg-amber-600">Salvar Evento</button>
+                    <button type="button" onclick="closeModal('modalReuniao')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold">Salvar Reunião</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL NOVO PASSEIO -->
-    <div id="modalPasseio" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <!-- MODAL LANÇAR GASTO CATEGORIZADO (1, 2, 3) -->
+    <div id="modalGasto" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-dark-800 border border-dark-600 w-full max-w-md rounded-2xl p-6 space-y-4">
             <div class="flex justify-between items-center border-b border-dark-600 pb-3">
-                <h3 class="font-heading font-bold text-lg text-white">Novo Roteiro de Passeio</h3>
+                <h3 class="font-heading font-bold text-lg text-white">Lançar Gasto no Caixa</h3>
+                <button onclick="closeModal('modalGasto')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="formGasto" onsubmit="salvarGasto(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Descrição do Gasto</label>
+                    <input type="text" id="gastoDesc" required placeholder="Ex: Compra de carnes para churrasco" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Categoria Obrigatória</label>
+                    <select id="gastoCategoria" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <option value="1">Categoria 1: Fatia 70% (Lazer, Integração e Eventos)</option>
+                        <option value="2">Categoria 2: Fatia 20% (Poupança e Patrimônio)</option>
+                        <option value="3">Categoria 3: Fatia 10% (Emergências e Imprevistos)</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Valor (R$)</label>
+                        <input type="number" step="0.01" id="gastoValor" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Data</label>
+                        <input type="date" id="gastoData" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Observação detalhada</label>
+                    <textarea id="gastoObs" rows="2" placeholder="Observações adicionais..." class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
+                </div>
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closeModal('modalGasto')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-xl text-sm font-bold hover:bg-red-700">Registrar Gasto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PASSEIO DETALHADO -->
+    <div id="modalPasseio" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-dark-800 border border-dark-600 w-full max-w-lg rounded-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-dark-600 pb-3">
+                <h3 class="font-heading font-bold text-lg text-white">Criar Novo Roteiro / Passeio</h3>
                 <button onclick="closeModal('modalPasseio')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="formPasseio" onsubmit="salvarPasseio(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Nome do Passeio / Destino</label>
-                    <input type="text" id="passeioTitulo" required placeholder="Ex: Serra de Petrópolis" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Ponto de Partida</label>
-                        <input type="text" id="passeioSaida" required placeholder="Ex: Posto BR Linha Vermelha" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Nome do Passeio / Destino</label>
+                        <input type="text" id="passNome" required placeholder="Ex: Subida a Penedo" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Distância Aprox.</label>
-                        <input type="text" id="passeioDistancia" required placeholder="Ex: 120 km" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Data Prevista</label>
+                        <input type="date" id="passData" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
                     </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Data Prevista</label>
-                    <input type="date" id="passeioData" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                </div>
-                <div class="flex justify-end space-x-3 pt-2">
-                    <button type="button" onclick="closeModal('modalPasseio')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold hover:bg-dark-600">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold hover:bg-amber-600">Salvar Roteiro</button>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <!-- MODAL LANÇAMENTO CAIXA (RESTRITO VIA PIN 2206) -->
-    <div id="modalTransacao" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-dark-800 border border-dark-600 w-full max-w-md rounded-2xl p-6 space-y-4">
-            <div class="flex justify-between items-center border-b border-dark-600 pb-3">
-                <h3 class="font-heading font-bold text-lg text-white" id="modalTransacaoTitle">Lançamento no Caixa</h3>
-                <button onclick="closeModal('modalTransacao')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form id="formTransacao" onsubmit="salvarTransacao(event)" class="space-y-4">
-                <input type="hidden" id="transacaoId">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Descrição</label>
-                    <input type="text" id="transacaoDesc" required placeholder="Ex: Churrasco da Sede / Bandeira" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Tipo</label>
-                        <select id="transacaoTipo" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                            <option value="entrada">Entrada (+)</option>
-                            <option value="saida">Saída (-)</option>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Ponto Partida 1 + Horário</label>
+                        <input type="text" id="passP1" required placeholder="Ex: Posto Shell 07:00" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Ponto Partida 2 + Horário</label>
+                        <input type="text" id="passP2" placeholder="Ex: Praça do Pedágio 07:45" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">1ª Parada</label>
+                        <input type="text" id="passParada1" placeholder="Ex: Posto Graal" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">2ª Parada</label>
+                        <input type="text" id="passParada2" placeholder="Ex: Mirante da Serra" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Distância Ida/Volta (km)</label>
+                        <input type="text" id="passDistancia" required placeholder="Ex: 280 km total" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Tem Pedágio no Trajeto?</label>
+                        <select id="passPedagio" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                            <option value="Não">Não</option>
+                            <option value="Sim">Sim</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Valor (R$)</label>
-                        <input type="number" step="0.01" id="transacaoValor" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                    </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Data</label>
-                    <input type="date" id="transacaoData" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                </div>
+
                 <div class="flex justify-end space-x-3 pt-2">
-                    <button type="button" onclick="closeModal('modalTransacao')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold hover:bg-dark-600">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold hover:bg-amber-600">Salvar Lançamento</button>
+                    <button type="button" onclick="closeModal('modalPasseio')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold">Salvar Passeio</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- SCRIPT PRINCIPAL E SISTEMA DE PERMISSÕES -->
-    <script>
-        const PIN_ADMIN = "2206"; // PIN ÚNICO QUE LIBERA ALTERAÇÕES RESTREITAS
-        let pinAutenticado = false;
+    <!-- MODAL EVENTO COMPLETO -->
+    <div id="modalEvento" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-dark-800 border border-dark-600 w-full max-w-lg rounded-2xl p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-dark-600 pb-3">
+                <h3 class="font-heading font-bold text-lg text-white">Criar Evento</h3>
+                <button onclick="closeModal('modalEvento')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="formEvento" onsubmit="salvarEvento(event)" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Nome do Evento / Destino</label>
+                        <input type="text" id="evNome" required placeholder="Ex: Aniversário de Moto Clube" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Tipo de Evento</label>
+                        <select id="evTipo" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                            <option value="BATE & VOLTA">BATE & VOLTA</option>
+                            <option value="BATE E FICA">BATE E FICA</option>
+                        </select>
+                    </div>
+                </div>
 
-        // Primeiro membro padrão: Marcos Henrique de Freitas (Presidente Fundador)
-        const MEMBRO_PADRAO = {
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Data Prevista</label>
+                        <input type="date" id="evData" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Distância Ida/Volta (km)</label>
+                        <input type="text" id="evDistancia" required placeholder="Ex: 350 km" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Ponto Partida 1 + Horário</label>
+                        <input type="text" id="evP1" required placeholder="Ex: Posto BR 06:30" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Ponto Partida 2 + Horário</label>
+                        <input type="text" id="evP2" placeholder="Ex: Posto do Trevo 07:15" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">1ª Parada</label>
+                        <input type="text" id="evParada1" placeholder="Ex: Parada das Maçãs" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">2ª Parada</label>
+                        <input type="text" id="evParada2" placeholder="Ex: Rest. da Serra" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Tem Pedágio?</label>
+                    <select id="evPedagio" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2 text-sm text-white">
+                        <option value="Não">Não</option>
+                        <option value="Sim">Sim</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closeModal('modalEvento')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold">Salvar Evento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT PRINCIPAL DA APLICAÇÃO -->
+    <script>
+        const PIN_DIRETORIA = "2206";
+        
+        const PRESIDENTE_PADRAO = {
             id: 1,
             nome: "MARCOS HENRIQUE DE FREITAS",
-            apelido: "PRESIDENTE FUNDADOR",
+            nomeGuerra: "PRESIDENTE FUNDADOR",
             cargo: "Presidente Fundador",
             telefone: "21999999999",
-            emergencia: "Diretoria Informais MG",
+            emergencia: "Diretoria Informais",
             nascimento: "1980-01-01",
             senha: "2206",
             status: "Ativo",
             mensalidadePaga: true,
-            v1: { modelo: "Moto Presidente", cor: "Preta", placa: "MGI-2206", funcao: "Piloto" },
-            v2: { modelo: "", cor: "", placa: "", funcao: "" }
+            v1: { modelo: "Moto Presidente", cor: "Preta", placa: "MGI-2206", funcao: "Piloto" }
         };
 
-        let membros = JSON.parse(localStorage.getItem('mgi_membros_v2')) || [MEMBRO_PADRAO];
-        let eventos = JSON.parse(localStorage.getItem('mgi_eventos_v2')) || [];
-        let transacoes = JSON.parse(localStorage.getItem('mgi_transacoes_v2')) || [];
-        let passeios = JSON.parse(localStorage.getItem('mgi_passeios_v2')) || [];
+        let usuarioLogado = JSON.parse(localStorage.getItem('mgi_user_logged')) || { nomeGuerra: "Visitante", cargo: "Modo Leitura", eDiretoria: false };
+        let membros = JSON.parse(localStorage.getItem('mgi_membros_v3')) || [PRESIDENTE_PADRAO];
+        let eventos = JSON.parse(localStorage.getItem('mgi_eventos_v3')) || [];
+        let reunioes = JSON.parse(localStorage.getItem('mgi_reunioes_v3')) || [];
+        let transacoes = JSON.parse(localStorage.getItem('mgi_transacoes_v3')) || [];
+        let passeios = JSON.parse(localStorage.getItem('mgi_passeios_v3')) || [];
 
         function salvarDados() {
-            localStorage.setItem('mgi_membros_v2', JSON.stringify(membros));
-            localStorage.setItem('mgi_eventos_v2', JSON.stringify(eventos));
-            localStorage.setItem('mgi_transacoes_v2', JSON.stringify(transacoes));
-            localStorage.setItem('mgi_passeios_v2', JSON.stringify(passeios));
+            localStorage.setItem('mgi_membros_v3', JSON.stringify(membros));
+            localStorage.setItem('mgi_eventos_v3', JSON.stringify(eventos));
+            localStorage.setItem('mgi_reunioes_v3', JSON.stringify(reunioes));
+            localStorage.setItem('mgi_transacoes_v3', JSON.stringify(transacoes));
+            localStorage.setItem('mgi_passeios_v3', JSON.stringify(passeios));
+            localStorage.setItem('mgi_user_logged', JSON.stringify(usuarioLogado));
             atualizarDashboard();
         }
 
-        function autenticarPIN() {
-            let pinInput = prompt("Digite o PIN restrito de administração:");
-            if (pinInput === PIN_ADMIN) {
-                pinAutenticado = true;
-                document.getElementById('pinStatusDot').className = "w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse";
-                document.getElementById('pinStatusText').innerText = "Admin Liberado";
-                document.getElementById('pinStatusText').className = "text-xs font-semibold text-green-400";
-                alert("PIN 2206 Autenticado com sucesso! Alterações e finanças liberadas.");
-                atualizarDashboard();
-            } else if (pinInput !== null) {
-                alert("PIN incorreto! Modo Leitura mantido.");
-            }
-        }
-
-        function executarComPIN(callback) {
-            if (pinAutenticado) {
-                callback();
+        function fazerLoginLogout() {
+            if (usuarioLogado.nomeGuerra !== "Visitante") {
+                usuarioLogado = { nomeGuerra: "Visitante", cargo: "Modo Leitura", eDiretoria: false };
+                salvarDados();
+                alert("Você saiu da sua conta.");
             } else {
-                let pinInput = prompt("Esta ação exige autorização. Digite o PIN de administração:");
-                if (pinInput === PIN_ADMIN) {
-                    pinAutenticado = true;
-                    document.getElementById('pinStatusDot').className = "w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse";
-                    document.getElementById('pinStatusText').innerText = "Admin Liberado";
-                    document.getElementById('pinStatusText').className = "text-xs font-semibold text-green-400";
-                    callback();
-                } else if (pinInput !== null) {
-                    alert("PIN incorreto! Ação cancelada.");
+                let nomeOuPin = prompt("Digite seu Nome de Guerra ou o PIN da Diretoria (2206):");
+                if (nomeOuPin === PIN_DIRETORIA) {
+                    usuarioLogado = { nomeGuerra: "PRESIDENTE FUNDADOR", cargo: "Presidente Fundador", eDiretoria: true };
+                    salvarDados();
+                    alert("Acesso de Diretoria Liberado!");
+                } else if (nomeOuPin) {
+                    let m = membros.find(x => x.nomeGuerra.toLowerCase() === nomeOuPin.toLowerCase());
+                    if (m) {
+                        let senha = prompt("Digite sua senha de acesso:");
+                        if (senha === m.senha) {
+                            let eDir = ["Presidente Fundador", "Vice Presidente", "Diretor"].includes(m.cargo);
+                            usuarioLogado = { nomeGuerra: m.nomeGuerra, cargo: m.cargo, eDiretoria: eDir };
+                            salvarDados();
+                            alert(`Bem-vindo, ${m.nomeGuerra}!`);
+                        } else { alert("Senha incorreta!"); }
+                    } else { alert("Membro não encontrado!"); }
                 }
             }
         }
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+        function executarAcaoRestrita(callback) {
+            if (usuarioLogado.eDiretoria) {
+                callback();
+            } else {
+                let pin = prompt("Ação restrita. Digite o PIN da Diretoria (2206):");
+                if (pin === PIN_DIRETORIA) {
+                    callback();
+                } else { alert("Acesso negado."); }
+            }
         }
 
         function switchTab(tabId) {
             document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
             document.getElementById('tab-' + tabId).classList.remove('hidden');
-
             document.querySelectorAll('nav button').forEach(btn => {
                 btn.classList.remove('text-amber-500', 'bg-dark-700');
                 btn.classList.add('text-gray-400');
@@ -711,23 +706,31 @@
         }
 
         function atualizarDashboard() {
-            document.getElementById('dash-membros-count').innerText = membros.length;
-            
-            // Caixa Total acumulado
+            document.getElementById('userLoggedName').innerText = usuarioLogado.nomeGuerra;
+            document.getElementById('userLoggedRole').innerText = usuarioLogado.cargo;
+            document.getElementById('btnLoginLogout').innerText = usuarioLogado.nomeGuerra !== "Visitante" ? "Sair" : "Login";
+
+            // Cálculos do Caixa Geral e Fatias
             let totalCaixa = transacoes.reduce((acc, t) => t.tipo === 'entrada' ? acc + t.valor : acc - t.valor, 0);
-            const saldoEl = document.getElementById('dash-saldo');
-            saldoEl.innerText = `R$ ${totalCaixa.toFixed(2).replace('.', ',')}`;
+            
+            // Fatias do caixa baseadas nas entradas das mensalidades
+            let totalMensalidadesEntrada = membros.filter(m => m.status === 'Ativo' && m.mensalidadePaga).length * 40;
+            let totalGastosFatia1 = transacoes.filter(t => t.tipo === 'gasto' && t.categoria === '1').reduce((a,b) => a + b.valor, 0);
+            let totalGastosFatia2 = transacoes.filter(t => t.tipo === 'gasto' && t.categoria === '2').reduce((a,b) => a + b.valor, 0);
+            let totalGastosFatia3 = transacoes.filter(t => t.tipo === 'gasto' && t.categoria === '3').reduce((a,b) => a + b.valor, 0);
 
-            // Finanças do Mês (R$ 40,00 por membro ativo)
-            let totalMembrosAtivos = membros.filter(m => m.status === 'Ativo').length;
-            let totalPrevistoMes = totalMembrosAtivos * 40;
-            let totalRecebidoMes = membros.filter(m => m.status === 'Ativo' && m.mensalidadePaga).length * 40;
+            let fatia1Disponivel = (totalMensalidadesEntrada * 0.70) - totalGastosFatia1;
+            let fatia2Disponivel = (totalMensalidadesEntrada * 0.20) - totalGastosFatia2;
+            let fatia3Disponivel = (totalMensalidadesEntrada * 0.10) - totalGastosFatia3;
 
-            document.getElementById('dash-recebido-mes').innerText = `R$ ${totalRecebidoMes.toFixed(2).replace('.', ',')}`;
-            document.getElementById('dash-total-previsto').innerText = `Previsto Mês: R$ ${totalPrevistoMes.toFixed(2).replace('.', ',')}`;
+            document.getElementById('dash-saldo').innerText = `R$ ${totalCaixa.toFixed(2).replace('.', ',')}`;
+            document.getElementById('dash-fatia1').innerText = `R$ ${fatia1Disponivel.toFixed(2).replace('.', ',')}`;
+            document.getElementById('dash-fatia2').innerText = `R$ ${fatia2Disponivel.toFixed(2).replace('.', ',')}`;
+            document.getElementById('dash-fatia3').innerText = `R$ ${fatia3Disponivel.toFixed(2).replace('.', ',')}`;
 
             renderMembros();
             renderEventos();
+            renderReunioes();
             renderFinanceiro();
             renderAniversarios();
             renderPasseios();
@@ -737,93 +740,92 @@
             const tbody = document.getElementById('membrosTableBody');
             if(!tbody) return;
             tbody.innerHTML = '';
-            
-            const busca = document.getElementById('membroSearch').value.toLowerCase();
-            const cargoFiltro = document.getElementById('membroCargoFilter').value;
 
-            let filtrados = membros.filter(m => {
-                let m1Info = m.v1 ? `${m.v1.modelo} ${m.v1.placa}` : '';
-                let m2Info = m.v2 ? `${m.v2.modelo} ${m.v2.placa}` : '';
-                let matchBusca = m.nome.toLowerCase().includes(busca) || m.apelido.toLowerCase().includes(busca) || m1Info.toLowerCase().includes(busca) || m2Info.toLowerCase().includes(busca);
-                let matchCargo = cargoFiltro === '' || m.cargo === cargoFiltro;
-                return matchBusca && matchCargo;
-            });
-
-            if(filtrados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">Nenhum integrante encontrado.</td></tr>`;
-                return;
-            }
-
-            filtrados.forEach(m => {
-                let v1Txt = m.v1 && m.v1.modelo ? `${m.v1.modelo} (${m.v1.cor} - ${m.v1.placa}) [${m.v1.funcao}]` : 'Sem Veículo';
+            membros.forEach(m => {
                 tbody.innerHTML += `
                     <tr class="hover:bg-dark-700/50">
-                        <td class="p-4">
-                            <button onclick="abrirDetalhesMembro(${m.id})" class="text-left font-semibold text-white hover:text-amber-500 transition">
-                                ${m.nome}<br><span class="text-xs text-amber-500 font-normal">"${m.apelido}"</span>
-                            </button>
-                        </td>
+                        <td class="p-4 font-semibold text-white">${m.nomeGuerra}<br><span class="text-xs text-gray-400 font-normal">${m.nome}</span></td>
                         <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs bg-dark-700 text-gray-300 font-semibold">${m.cargo}</span></td>
-                        <td class="p-4 text-xs text-gray-300">${v1Txt}</td>
+                        <td class="p-4 text-xs text-gray-300">${m.v1 ? `${m.v1.modelo} (${m.v1.placa})` : 'N/D'}</td>
                         <td class="p-4 text-xs">
-                            <a href="https://wa.me/55${m.telefone}" target="_blank" class="text-green-400 hover:underline block"><i class="fa-brands fa-whatsapp mr-1"></i> ${m.telefone}</a>
-                            <span class="text-red-400 block mt-0.5"><i class="fa-solid fa-phone-flip mr-1"></i> ${m.emergencia || 'N/D'}</span>
+                            <a href="https://wa.me/55${m.telefone}" target="_blank" class="text-green-400 hover:underline block"><i class="fa-brands fa-whatsapp mr-1"></i>${m.telefone}</a>
+                            <span class="text-red-400 block"><i class="fa-solid fa-phone-flip mr-1"></i>Emergência: ${m.emergencia}</span>
                         </td>
-                        <td class="p-4">
-                            <span class="px-2 py-1 rounded text-xs ${m.status === 'Ativo' ? 'bg-green-500/10 text-green-400 font-bold' : 'bg-red-500/10 text-red-400'}">${m.status}</span>
-                        </td>
-                        <td class="p-4 text-right space-x-2">
-                            <button onclick="executarComPIN(() => alternarStatusMembro(${m.id}))" title="Alternar Status (Ativo/Inativo)" class="text-gray-400 hover:text-amber-400"><i class="fa-solid fa-toggle-on text-base"></i></button>
-                            <button onclick="executarComPIN(() => removerMembro(${m.id}))" title="Remover" class="text-gray-400 hover:text-red-400"><i class="fa-solid fa-trash text-base"></i></button>
+                        <td class="p-4"><span class="px-2 py-1 rounded text-xs font-bold ${m.status === 'Ativo' ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}">${m.status}</span></td>
+                        <td class="p-4 text-right">
+                            <button onclick="executarAcaoRestrita(() => removerMembro(${m.id}))" class="text-gray-400 hover:text-red-400"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        function abrirDetalhesMembro(id) {
+        function darBaixaMensalidade(id) {
             let m = membros.find(x => x.id === id);
             if(!m) return;
 
-            document.getElementById('detNome').innerText = m.nome;
-            document.getElementById('detApelido').innerText = `"${m.apelido}"`;
-            document.getElementById('detAbreviacao').innerText = m.nome.substring(0, 2).toUpperCase();
-            document.getElementById('detCargo').innerText = m.cargo;
-            document.getElementById('detStatus').innerText = m.status;
-            document.getElementById('detStatus').className = m.status === 'Ativo' ? "font-semibold text-green-400" : "font-semibold text-red-400";
-            document.getElementById('detTelefone').innerText = m.telefone;
-            document.getElementById('detEmergencia').innerText = m.emergencia || 'Não informado';
-
-            document.getElementById('detV1').innerText = m.v1 && m.v1.modelo ? `${m.v1.modelo} | Cor: ${m.v1.cor} | Placa: ${m.v1.placa} | Função: ${m.v1.funcao}` : 'Nenhum veículo principal cadastrado';
-            
-            if(m.v2 && m.v2.modelo) {
-                document.getElementById('boxV2').classList.remove('hidden');
-                document.getElementById('detV2').innerText = `${m.v2.modelo} | Cor: ${m.v2.cor} | Placa: ${m.v2.placa} | Função: ${m.v2.funcao}`;
+            if(!m.mensalidadePaga) {
+                m.mensalidadePaga = true;
+                // Entrada sem duplicar
+                transacoes.push({
+                    id: Date.now(),
+                    membroId: m.id,
+                    descricao: `Mensalidade (R$ 40,00): ${m.nomeGuerra}`,
+                    tipo: 'entrada',
+                    valor: 40.00,
+                    data: new Date().toISOString().split('T')[0]
+                });
             } else {
-                document.getElementById('boxV2').classList.add('hidden');
+                m.mensalidadePaga = false;
+                // Remover do extrato se desmarcado
+                transacoes = transacoes.filter(t => t.membroId !== m.id || t.descricao.indexOf("Mensalidade") === -1);
             }
-
-            const mStatus = document.getElementById('detMensalidadeStatus');
-            mStatus.innerText = m.mensalidadePaga ? "MENSALIDADE OK (R$ 40,00 PAGO)" : "PENDENTE NO MÊS";
-            mStatus.className = m.mensalidadePaga ? "px-2.5 py-1 rounded-full text-xs font-bold bg-green-500/20 text-green-400" : "px-2.5 py-1 rounded-full text-xs font-bold bg-red-500/20 text-red-400";
-
-            openModal('modalDetalhesMembro');
+            salvarDados();
         }
 
-        function alternarStatusMembro(id) {
-            let m = membros.find(x => x.id === id);
-            if(m) {
-                m.status = m.status === 'Ativo' ? 'Inativo' : 'Ativo';
-                salvarDados();
-            }
+        function renderFinanceiro() {
+            const tbody = document.getElementById('mensalidadesTable');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            membros.filter(m => m.status === 'Ativo').forEach(m => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-dark-700/50">
+                        <td class="p-3 font-semibold text-white">${m.nomeGuerra}</td>
+                        <td class="p-3">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold ${m.mensalidadePaga ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}">
+                                ${m.mensalidadePaga ? 'PAGO (R$ 40,00)' : 'PENDENTE'}
+                            </span>
+                        </td>
+                        <td class="p-3 text-right">
+                            <button onclick="executarAcaoRestrita(() => darBaixaMensalidade(${m.id}))" class="text-xs bg-dark-700 hover:bg-amber-500 hover:text-dark-900 text-amber-500 px-3 py-1 rounded font-bold transition">
+                                ${m.mensalidadePaga ? 'Desmarcar / Estornar' : 'Confirmar R$ 40,00'}
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            const tList = document.getElementById('transacoesList');
+            if(!tList) return;
+            tList.innerHTML = transacoes.length === 0 ? `<p class="text-xs text-gray-500 text-center py-4">Nenhum lançamento no extrato.</p>` : transacoes.map(t => `
+                <div class="p-3 bg-dark-700/50 rounded-xl text-xs space-y-1 border border-dark-600/50">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-white">${t.descricao}</span>
+                        <span class="font-bold ${t.tipo === 'entrada' ? 'text-green-400' : 'text-red-400'}">${t.tipo === 'entrada' ? '+' : '-'} R$ ${t.valor.toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    ${t.categoria ? `<span class="text-[10px] text-amber-500 block">Fatia ${t.categoria} | Data: ${t.data}</span>` : `<span class="text-[10px] text-gray-400 block">Data: ${t.data}</span>`}
+                    ${t.obs ? `<p class="text-[10px] text-gray-400 italic">Obs: ${t.obs}</p>` : ''}
+                </div>
+            `).join('');
         }
 
         function salvarMembro(e) {
             e.preventDefault();
-            const novo = {
+            membros.push({
                 id: Date.now(),
                 nome: document.getElementById('membroNome').value.toUpperCase(),
-                apelido: document.getElementById('membroApelido').value,
+                nomeGuerra: document.getElementById('membroNomeGuerra').value.toUpperCase(),
                 cargo: document.getElementById('membroCargo').value,
                 telefone: document.getElementById('membroTelefone').value,
                 emergencia: document.getElementById('membroEmergencia').value,
@@ -836,155 +838,81 @@
                     cor: document.getElementById('v1Cor').value,
                     placa: document.getElementById('v1Placa').value,
                     funcao: document.getElementById('v1Funcao').value
-                },
-                v2: {
-                    modelo: document.getElementById('v2Modelo').value,
-                    cor: document.getElementById('v2Cor').value,
-                    placa: document.getElementById('v2Placa').value,
-                    funcao: document.getElementById('v2Funcao').value
                 }
-            };
-            membros.push(novo);
+            });
             salvarDados();
             closeModal('modalMembro');
             document.getElementById('formMembro').reset();
-            alert("Integrante cadastrado com sucesso!");
         }
 
-        function renderFinanceiro() {
-            const tbody = document.getElementById('mensalidadesTable');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-
-            let ativos = membros.filter(m => m.status === 'Ativo');
-
-            if(ativos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="p-3 text-center text-gray-500">Nenhum membro ativo para cobrança.</td></tr>`;
-            } else {
-                ativos.forEach(m => {
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-dark-700/50">
-                            <td class="p-3 font-semibold text-white">${m.nome} ("${m.apelido}")</td>
-                            <td class="p-3 text-xs text-gray-400">${m.cargo}</td>
-                            <td class="p-3">
-                                <span class="px-2.5 py-1 rounded-full text-xs font-bold ${m.mensalidadePaga ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}">
-                                    ${m.mensalidadePaga ? 'PAGO (R$ 40,00)' : 'PENDENTE'}
-                                </span>
-                            </td>
-                            <td class="p-3 text-right">
-                                <button onclick="executarComPIN(() => darBaixaMensalidade(${m.id}))" class="text-xs bg-dark-700 hover:bg-amber-500 hover:text-dark-900 text-amber-500 px-3 py-1.5 rounded-lg font-bold transition">
-                                    ${m.mensalidadePaga ? 'Estornar' : 'Dar Baixa R$ 40,00'}
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            }
-
-            // Renderizar Extrato de Lançamentos
-            const tList = document.getElementById('transacoesList');
-            if(!tList) return;
-            tList.innerHTML = transacoes.length === 0 ? `<p class="text-xs text-gray-500 text-center py-4">Nenhum lançamento no caixa.</p>` : transacoes.map(t => `
-                <div class="flex justify-between items-center p-3 bg-dark-700/50 rounded-xl text-sm border border-dark-600/50">
-                    <div>
-                        <p class="font-semibold text-white">${t.descricao}</p>
-                        <span class="text-xs text-gray-400">${t.data}</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <span class="font-bold ${t.tipo === 'entrada' ? 'text-green-400' : 'text-red-400'}">${t.tipo === 'entrada' ? '+' : '-'} R$ ${t.valor.toFixed(2).replace('.', ',')}</span>
-                        <button onclick="executarComPIN(() => apagarTransacao(${t.id}))" title="Excluir Lançamento" class="text-gray-500 hover:text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                </div>
-            `).join('');
-
-            // Renderizar Extrato Simplificado no Dashboard
-            const dashFinancas = document.getElementById('dash-financas-list');
-            if(dashFinancas) {
-                dashFinancas.innerHTML = transacoes.slice(-4).reverse().map(t => `
-                    <div class="flex justify-between items-center p-2.5 bg-dark-700/40 rounded-lg text-xs">
-                        <span class="text-white">${t.descricao}</span>
-                        <span class="font-bold ${t.tipo === 'entrada' ? 'text-green-400' : 'text-red-400'}">${t.tipo === 'entrada' ? '+' : '-'} R$ ${t.valor.toFixed(2).replace('.', ',')}</span>
-                    </div>
-                `).join('') || '<p class="text-xs text-gray-500">Nenhuma movimentação.</p>';
-            }
-        }
-
-        function darBaixaMensalidade(membroId) {
-            let m = membros.find(x => x.id === membroId);
-            if(!m) return;
-
-            if(!m.mensalidadePaga) {
-                m.mensalidadePaga = true;
-                // Adiciona lançamento no caixa
-                transacoes.push({
-                    id: Date.now(),
-                    descricao: `Mensalidade Mês: ${m.nome}`,
-                    tipo: 'entrada',
-                    valor: 40.00,
-                    data: new Date().toISOString().split('T')[0]
-                });
-            } else {
-                m.mensalidadePaga = false;
-            }
-            salvarDados();
-        }
-
-        function salvarTransacao(e) {
+        function salvarGasto(e) {
             e.preventDefault();
             transacoes.push({
                 id: Date.now(),
-                descricao: document.getElementById('transacaoDesc').value,
-                tipo: document.getElementById('transacaoTipo').value,
-                valor: parseFloat(document.getElementById('transacaoValor').value),
-                data: document.getElementById('transacaoData').value
+                descricao: document.getElementById('gastoDesc').value,
+                categoria: document.getElementById('gastoCategoria').value,
+                tipo: 'gasto',
+                valor: parseFloat(document.getElementById('gastoValor').value),
+                data: document.getElementById('gastoData').value,
+                obs: document.getElementById('gastoObs').value
             });
             salvarDados();
-            closeModal('modalTransacao');
-            document.getElementById('formTransacao').reset();
+            closeModal('modalGasto');
+            document.getElementById('formGasto').reset();
         }
 
-        function apagarTransacao(id) {
-            transacoes = transacoes.filter(t => t.id !== id);
-            salvarDados();
-        }
-
-        function salvarEvento(e) {
+        function salvarReuniao(e) {
             e.preventDefault();
-            eventos.push({
+            reunioes.push({
                 id: Date.now(),
-                titulo: document.getElementById('eventoTitulo').value,
-                data: document.getElementById('eventoData').value,
-                hora: document.getElementById('eventoHora').value,
-                local: document.getElementById('eventoLocal').value,
+                assunto: document.getElementById('reuniaoAssunto').value,
+                data: document.getElementById('reuniaoData').value,
+                hora: document.getElementById('reuniaoHora').value,
+                local: document.getElementById('reuniaoLocal').value,
                 confirmados: []
             });
             salvarDados();
-            closeModal('modalEvento');
-            document.getElementById('formEvento').reset();
-            alert("Evento publicado com sucesso!");
+            closeModal('modalReuniao');
+            document.getElementById('formReuniao').reset();
         }
 
-        function renderEventos() {
-            const container = document.getElementById('eventosList');
-            if(!container) return;
-            container.innerHTML = eventos.length === 0 ? `<p class="text-sm text-gray-500">Nenhum evento agendado.</p>` : eventos.map(e => `
+        function renderReunioes() {
+            const list = document.getElementById('reuniaoList');
+            if(!list) return;
+            
+            // Ordenação por data (Dia/Mês/Ano)
+            let ordenadas = reunioes.sort((a,b) => new Date(a.data) - new Date(b.data));
+
+            list.innerHTML = ordenadas.length === 0 ? `<p class="text-xs text-gray-500">Nenhuma reunião agendada.</p>` : ordenadas.map(r => `
                 <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600 space-y-3">
                     <div class="flex justify-between items-start">
-                        <h3 class="font-heading font-bold text-white text-lg">${e.titulo}</h3>
-                        <span class="text-xs bg-amber-500/10 text-amber-500 font-bold px-3 py-1 rounded-full">${e.data} às ${e.hora}</span>
+                        <h3 class="font-heading font-bold text-white text-lg">${r.assunto}</h3>
+                        <span class="text-xs bg-amber-500/10 text-amber-500 font-bold px-3 py-1 rounded-full">${r.data} às ${r.hora}</span>
                     </div>
-                    <p class="text-sm text-gray-400"><i class="fa-solid fa-location-dot text-red-500 mr-2"></i>${e.local}</p>
+                    <p class="text-sm text-gray-400"><i class="fa-solid fa-location-dot text-red-500 mr-2"></i>Local: ${r.local}</p>
+                    <div class="pt-2 border-t border-dark-600 flex justify-between items-center text-xs">
+                        <button onclick="confirmarPresencaReuniao(${r.id})" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-3 py-1.5 rounded-lg flex items-center">
+                            <i class="fa-solid fa-circle-check mr-1"></i> Marcar Minha Presença
+                        </button>
+                        <span class="text-gray-400">${r.confirmados.length} Confirmados</span>
+                    </div>
+                    ${usuarioLogado.eDiretoria ? `<p class="text-[10px] text-amber-500"><b>Lista para Diretoria:</b> ${r.confirmados.join(', ') || 'Nenhum por enquanto'}</p>` : ''}
                 </div>
             `).join('');
+        }
 
-            const dashEv = document.getElementById('dash-eventos-list');
-            if(dashEv) {
-                dashEv.innerHTML = eventos.slice(-3).map(e => `
-                    <div class="p-3 bg-dark-700/40 rounded-xl flex justify-between items-center text-xs">
-                        <span class="font-bold text-white">${e.titulo}</span>
-                        <span class="text-amber-500">${e.data}</span>
-                    </div>
-                `).join('') || '<p class="text-xs text-gray-500">Nenhum evento futuro.</p>';
+        function confirmarPresencaReuniao(id) {
+            if(usuarioLogado.nomeGuerra === "Visitante") {
+                alert("Faça login com seu Nome de Guerra para confirmar presença.");
+                return;
+            }
+            let r = reunioes.find(x => x.id === id);
+            if(r && !r.confirmados.includes(usuarioLogado.nomeGuerra)) {
+                r.confirmados.push(usuarioLogado.nomeGuerra);
+                salvarDados();
+                alert("Sua presença foi confirmada e enviada à Diretoria!");
+            } else {
+                alert("Você já confirmou presença nesta reunião.");
             }
         }
 
@@ -992,30 +920,105 @@
             e.preventDefault();
             passeios.push({
                 id: Date.now(),
-                titulo: document.getElementById('passeioTitulo').value,
-                saida: document.getElementById('passeioSaida').value,
-                distancia: document.getElementById('passeioDistancia').value,
-                data: document.getElementById('passeioData').value
+                nome: document.getElementById('passNome').value,
+                data: document.getElementById('passData').value,
+                p1: document.getElementById('passP1').value,
+                p2: document.getElementById('passP2').value,
+                parada1: document.getElementById('passParada1').value,
+                parada2: document.getElementById('passParada2').value,
+                distancia: document.getElementById('passDistancia').value,
+                pedagio: document.getElementById('passPedagio').value
             });
             salvarDados();
             closeModal('modalPasseio');
             document.getElementById('formPasseio').reset();
-            alert("Roteiro publicado com sucesso!");
         }
 
         function renderPasseios() {
             const list = document.getElementById('passeiosList');
             if(!list) return;
-            list.innerHTML = passeios.length === 0 ? `<p class="text-sm text-gray-500">Nenhum passeio cadastrado.</p>` : passeios.map(p => `
-                <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600 space-y-2">
-                    <div class="flex justify-between">
-                        <h3 class="font-heading font-bold text-white text-lg">${p.titulo}</h3>
-                        <span class="text-xs text-amber-500 font-bold">${p.data}</span>
+            list.innerHTML = passeios.length === 0 ? `<p class="text-xs text-gray-500">Nenhum passeio cadastrado.</p>` : passeios.map(p => `
+                <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600 space-y-2 text-xs">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-heading font-bold text-white text-base">${p.nome}</h3>
+                        <span class="text-amber-500 font-bold">${p.data}</span>
                     </div>
-                    <p class="text-sm text-gray-300"><b>Ponto de Partida:</b> ${p.saida}</p>
-                    <p class="text-sm text-gray-300"><b>Distância Aprox.:</b> ${p.distancia}</p>
+                    <div class="grid grid-cols-2 gap-2 text-gray-300 pt-2">
+                        <p><b>Ponto Partida 1:</b> ${p.p1}</p>
+                        <p><b>Ponto Partida 2:</b> ${p.p2 || 'N/D'}</p>
+                        <p><b>1ª Parada:</b> ${p.parada1 || 'N/D'}</p>
+                        <p><b>2ª Parada:</b> ${p.parada2 || 'N/D'}</p>
+                        <p><b>Distância Ida/Volta:</b> ${p.distancia}</p>
+                        <p><b>Pedágio:</b> <span class="${p.pedagio === 'Sim' ? 'text-red-400' : 'text-green-400'} font-bold">${p.pedagio}</span></p>
+                    </div>
                 </div>
             `).join('');
+        }
+
+        function salvarEvento(e) {
+            e.preventDefault();
+            eventos.push({
+                id: Date.now(),
+                nome: document.getElementById('evNome').value,
+                tipo: document.getElementById('evTipo').value,
+                data: document.getElementById('evData').value,
+                distancia: document.getElementById('evDistancia').value,
+                p1: document.getElementById('evP1').value,
+                p2: document.getElementById('evP2').value,
+                parada1: document.getElementById('evParada1').value,
+                parada2: document.getElementById('evParada2').value,
+                pedagio: document.getElementById('evPedagio').value,
+                confirmados: []
+            });
+            salvarDados();
+            closeModal('modalEvento');
+            document.getElementById('formEvento').reset();
+        }
+
+        function renderEventos() {
+            const list = document.getElementById('eventosList');
+            if(!list) return;
+            list.innerHTML = eventos.length === 0 ? `<p class="text-xs text-gray-500">Nenhum evento criado.</p>` : eventos.map(ev => `
+                <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600 space-y-3 text-xs">
+                    <div class="flex justify-between items-center">
+                        <h3 class="font-heading font-bold text-white text-base">${ev.nome}</h3>
+                        <span class="bg-amber-500/10 text-amber-500 font-bold px-2.5 py-1 rounded-full">${ev.tipo}</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-gray-300">
+                        <p><b>Data Prevista:</b> ${ev.data}</p>
+                        <p><b>Distância:</b> ${ev.distancia}</p>
+                        <p><b>Ponto 1:</b> ${ev.p1}</p>
+                        <p><b>Ponto 2:</b> ${ev.p2 || 'N/D'}</p>
+                        <p><b>1ª Parada:</b> ${ev.parada1 || 'N/D'}</p>
+                        <p><b>2ª Parada:</b> ${ev.parada2 || 'N/D'}</p>
+                        <p><b>Pedágio:</b> ${ev.pedagio}</p>
+                    </div>
+                    <div class="pt-2 border-t border-dark-600 flex justify-between items-center">
+                        <span class="text-gray-400">Presença: ${ev.confirmados.length} Membros</span>
+                        <div class="space-x-2">
+                            <button onclick="responderEvento(${ev.id}, 'Sim')" class="bg-green-600 hover:bg-green-700 text-white font-bold px-3 py-1 rounded">Vou (Sim)</button>
+                            <button onclick="responderEvento(${ev.id}, 'Não')" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1 rounded">Não Vou</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function responderEvento(id, resposta) {
+            if(usuarioLogado.nomeGuerra === "Visitante") {
+                alert("Faça login com seu Nome de Guerra para confirmar presença.");
+                return;
+            }
+            let ev = eventos.find(x => x.id === id);
+            if(ev) {
+                if(resposta === 'Sim' && !ev.confirmados.includes(usuarioLogado.nomeGuerra)) {
+                    ev.confirmados.push(usuarioLogado.nomeGuerra);
+                } else if(resposta === 'Não') {
+                    ev.confirmados = ev.confirmados.filter(n => n !== usuarioLogado.nomeGuerra);
+                }
+                salvarDados();
+                alert(`Presença atualizada para: ${resposta}`);
+            }
         }
 
         function renderAniversarios() {
@@ -1024,31 +1027,31 @@
             grid.innerHTML = membros.map(m => `
                 <div class="bg-dark-800/80 backdrop-blur-md p-5 rounded-2xl border border-dark-600 flex items-center justify-between">
                     <div>
-                        <h3 class="font-bold text-white">${m.nome}</h3>
+                        <h3 class="font-bold text-white">${m.nomeGuerra}</h3>
                         <p class="text-xs text-amber-500 mt-1"><i class="fa-solid fa-cake-candles mr-1"></i> Data: ${m.nascimento}</p>
                     </div>
                     <a href="https://wa.me/55${m.telefone}?text=Parabéns%20irmão%20de%20estrada!%20Felicidades%20do%20Moto%20Grupo%20Informais!" target="_blank" class="bg-green-500/10 text-green-400 p-3 rounded-xl hover:bg-green-500/20"><i class="fa-brands fa-whatsapp text-lg"></i></a>
                 </div>
             `).join('');
-            document.getElementById('dash-aniversarios-count').innerText = membros.length;
         }
 
         function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
         function removerMembro(id) {
-            if(confirm("Tem certeza que deseja remover este integrante do grupo?")) {
+            if(confirm("Deseja remover este integrante do grupo?")) {
                 membros = membros.filter(m => m.id !== id);
                 salvarDados();
             }
         }
 
         function resetDataConfirmation() {
-            executarComPIN(() => {
-                if(confirm("Deseja restaurar as configurações padrão do sistema? Todos os dados salvos localmente serão limpos.")) {
+            executarAcaoRestrita(() => {
+                if(confirm("Deseja restaurar as configurações padrão do sistema?")) {
                     localStorage.clear();
-                    membros = [MEMBRO_PADRAO];
+                    membros = [PRESIDENTE_PADRAO];
                     eventos = [];
+                    reunioes = [];
                     transacoes = [];
                     passeios = [];
                     salvarDados();
