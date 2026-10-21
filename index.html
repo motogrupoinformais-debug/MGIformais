@@ -47,21 +47,10 @@
         h1, h2, h3, .font-heading {
             font-family: 'Montserrat', sans-serif;
         }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #121212;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #2a2a2a;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ff6b00;
-        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #121212; }
+        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff6b00; }
     </style>
 </head>
 <body class="bg-dark-900 text-gray-200 min-h-screen flex flex-col md:flex-row font-body">
@@ -80,7 +69,6 @@
     <!-- Sidebar Navigation -->
     <aside id="sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out z-40 w-64 bg-dark-800 border-r border-dark-600 flex flex-col justify-between h-screen">
         <div>
-            <!-- Logo Section -->
             <div class="p-6 border-b border-dark-600 flex items-center space-x-3">
                 <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center text-dark-900 shadow-lg">
                     <i class="fa-solid fa-motorcycle text-xl"></i>
@@ -91,7 +79,6 @@
                 </div>
             </div>
 
-            <!-- User Status / Admin Tag -->
             <div class="px-6 py-4 bg-dark-700/50 border-b border-dark-600/50 flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                     <span class="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span>
@@ -100,40 +87,31 @@
                 <button onclick="togglePinModal()" class="text-xs text-amber-500 hover:underline">PIN Admin</button>
             </div>
 
-            <!-- Navigation Links -->
             <nav class="p-4 space-y-1">
                 <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition text-amber-500 bg-dark-700">
-                    <i class="fa-solid fa-chart-pie w-5"></i>
-                    <span>Dashboard</span>
+                    <i class="fa-solid fa-chart-pie w-5"></i><span>Dashboard</span>
                 </button>
                 <button onclick="switchTab('membros')" id="nav-membros" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-400 hover:text-white hover:bg-dark-700/50 transition">
-                    <i class="fa-solid fa-users w-5"></i>
-                    <span>Membros</span>
+                    <i class="fa-solid fa-users w-5"></i><span>Membros</span>
                 </button>
                 <button onclick="switchTab('eventos')" id="nav-eventos" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-400 hover:text-white hover:bg-dark-700/50 transition">
-                    <i class="fa-solid fa-calendar-check w-5"></i>
-                    <span>Eventos & Presença</span>
+                    <i class="fa-solid fa-calendar-check w-5"></i><span>Eventos & Presença</span>
                 </button>
                 <button onclick="switchTab('financeiro')" id="nav-financeiro" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-400 hover:text-white hover:bg-dark-700/50 transition">
-                    <i class="fa-solid fa-sack-dollar w-5"></i>
-                    <span>Financeiro & Rateios</span>
+                    <i class="fa-solid fa-sack-dollar w-5"></i><span>Financeiro & Rateios</span>
                 </button>
                 <button onclick="switchTab('aniversarios')" id="nav-aniversarios" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-400 hover:text-white hover:bg-dark-700/50 transition">
-                    <i class="fa-solid fa-cake-candles w-5"></i>
-                    <span>Aniversários</span>
+                    <i class="fa-solid fa-cake-candles w-5"></i><span>Aniversários</span>
                 </button>
                 <button onclick="switchTab('passeios')" id="nav-passeios" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-400 hover:text-white hover:bg-dark-700/50 transition">
-                    <i class="fa-solid fa-route w-5"></i>
-                    <span>Passeios & Roteiros</span>
+                    <i class="fa-solid fa-route w-5"></i><span>Passeios & Roteiros</span>
                 </button>
             </nav>
         </div>
 
-        <!-- Footer / Reset Data -->
         <div class="p-4 border-t border-dark-600">
             <button onclick="resetDataConfirmation()" class="w-full text-xs text-gray-500 hover:text-red-400 py-2 transition flex items-center justify-center space-x-2">
-                <i class="fa-solid fa-rotate-left"></i>
-                <span>Restaurar Dados Padrão</span>
+                <i class="fa-solid fa-rotate-left"></i><span>Restaurar Dados Padrão</span>
             </button>
         </div>
     </aside>
@@ -146,31 +124,27 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Painel Geral</h2>
-                    <p class="text-sm text-gray-400">Visão consolidada do Moto Grupo Informais</p>
+                    <p class="text-sm text-gray-400">Visão consolidada do Moto Grupo Informais (50+ Membros)</p>
                 </div>
                 <div class="flex items-center space-x-3">
                     <button onclick="openModal('modalMembro')" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2 shadow-lg shadow-amber-500/10">
-                        <i class="fa-solid fa-user-plus"></i>
-                        <span>Novo Membro</span>
+                        <i class="fa-solid fa-user-plus"></i><span>Novo Membro</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Stats Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <!-- Card Membros -->
                 <div class="bg-dark-800 p-5 rounded-2xl border border-dark-600 flex items-center justify-between">
                     <div>
                         <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Total de Membros</p>
                         <h3 id="dash-membros-count" class="text-3xl font-heading font-black text-white mt-1">0</h3>
-                        <span class="text-xs text-green-400 flex items-center mt-1"><i class="fa-solid fa-check-circle mr-1"></i> Ativos e Prospectos</span>
+                        <span class="text-xs text-green-400 flex items-center mt-1"><i class="fa-solid fa-check-circle mr-1"></i> Cadastrados</span>
                     </div>
                     <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-xl flex items-center justify-center text-xl">
                         <i class="fa-solid fa-id-card"></i>
                     </div>
                 </div>
 
-                <!-- Card Finanças -->
                 <div class="bg-dark-800 p-5 rounded-2xl border border-dark-600 flex items-center justify-between">
                     <div>
                         <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Saldo em Caixa</p>
@@ -182,7 +156,6 @@
                     </div>
                 </div>
 
-                <!-- Card Próximo Passeio -->
                 <div class="bg-dark-800 p-5 rounded-2xl border border-dark-600 flex items-center justify-between">
                     <div>
                         <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Próximo Passeio</p>
@@ -194,7 +167,6 @@
                     </div>
                 </div>
 
-                <!-- Card Aniversariantes -->
                 <div class="bg-dark-800 p-5 rounded-2xl border border-dark-600 flex items-center justify-between">
                     <div>
                         <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Aniversários (Mês)</p>
@@ -207,9 +179,7 @@
                 </div>
             </div>
 
-            <!-- Quick Lists / Tables Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Próximos Eventos -->
                 <div class="bg-dark-800 p-6 rounded-2xl border border-dark-600">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-heading font-bold text-lg text-white flex items-center">
@@ -217,12 +187,9 @@
                         </h3>
                         <button onclick="switchTab('eventos')" class="text-xs text-amber-500 hover:underline">Ver Todos</button>
                     </div>
-                    <div id="dash-eventos-list" class="space-y-3">
-                        <!-- Dynamic Content -->
-                    </div>
+                    <div id="dash-eventos-list" class="space-y-3"></div>
                 </div>
 
-                <!-- Últimas Movimentações -->
                 <div class="bg-dark-800 p-6 rounded-2xl border border-dark-600">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="font-heading font-bold text-lg text-white flex items-center">
@@ -230,9 +197,7 @@
                         </h3>
                         <button onclick="switchTab('financeiro')" class="text-xs text-amber-500 hover:underline">Ver Detalhes</button>
                     </div>
-                    <div id="dash-financas-list" class="space-y-3">
-                        <!-- Dynamic Content -->
-                    </div>
+                    <div id="dash-financas-list" class="space-y-3"></div>
                 </div>
             </div>
         </section>
@@ -242,15 +207,13 @@
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Integrantes do Grupo</h2>
-                    <p class="text-sm text-gray-400">Gerenciamento dos 50+ membros, cargos e motocicletas</p>
+                    <p class="text-sm text-gray-400">Gerenciamento dos membros, senhas e contato de emergência</p>
                 </div>
                 <button onclick="openModal('modalMembro')" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Adicionar Integrante</span>
+                    <i class="fa-solid fa-plus"></i><span>Adicionar Integrante</span>
                 </button>
             </div>
 
-            <!-- Filters -->
             <div class="bg-dark-800 p-4 rounded-2xl border border-dark-600 flex flex-col sm:flex-row gap-4 justify-between">
                 <div class="relative flex-1">
                     <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
@@ -259,8 +222,10 @@
                 <div class="flex gap-2">
                     <select id="membroCargoFilter" onchange="renderMembros()" class="bg-dark-700 border border-dark-600 text-white text-sm rounded-xl px-3 py-2 focus:outline-none focus:border-amber-500">
                         <option value="">Todos os Cargos</option>
+                        <option value="Presidente Fundador">Presidente Fundador</option>
+                        <option value="Vice Presidente">Vice Presidente</option>
                         <option value="Diretoria">Diretoria</option>
-                        <option value="Membro">Membro Efeto</option>
+                        <option value="Membro Efetivo">Membro Efetivo</option>
                         <option value="Prospecto">Prospecto</option>
                     </select>
                     <select id="membroStatusFilter" onchange="renderMembros()" class="bg-dark-700 border border-dark-600 text-white text-sm rounded-xl px-3 py-2 focus:outline-none focus:border-amber-500">
@@ -271,7 +236,6 @@
                 </div>
             </div>
 
-            <!-- Members Table -->
             <div class="bg-dark-800 rounded-2xl border border-dark-600 overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
@@ -280,20 +244,18 @@
                                 <th class="p-4">Integrante</th>
                                 <th class="p-4">Cargo</th>
                                 <th class="p-4">Motocicleta</th>
-                                <th class="p-4">Contato</th>
+                                <th class="p-4">Contato / Emergência</th>
                                 <th class="p-4">Status</th>
                                 <th class="p-4 text-right">Ações</th>
                             </tr>
                         </thead>
-                        <tbody id="membrosTableBody" class="divide-y divide-dark-600 text-sm">
-                            <!-- Dynamic Content -->
-                        </tbody>
+                        <tbody id="membrosTableBody" class="divide-y divide-dark-600 text-sm"></tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 3: EVENTOS & PRESENÇA -->
+        <!-- TAB 3: EVENTOS -->
         <section id="tab-eventos" class="hidden space-y-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
@@ -301,52 +263,41 @@
                     <p class="text-sm text-gray-400">Encontros, reuniões e controle de presença (RSVP)</p>
                 </div>
                 <button onclick="openModal('modalEvento')" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Criar Evento</span>
+                    <i class="fa-solid fa-plus"></i><span>Criar Evento</span>
                 </button>
             </div>
-
-            <div id="eventosList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Dynamic Content -->
-            </div>
+            <div id="eventosList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </section>
 
-        <!-- TAB 4: FINANCEIRO & RATEIOS -->
+        <!-- TAB 4: FINANCEIRO -->
         <section id="tab-financeiro" class="hidden space-y-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Gestão Financeira & Rateios</h2>
-                    <p class="text-sm text-gray-400">Mensalidades, doações e calculadora de rateio automático de viagens</p>
+                    <p class="text-sm text-gray-400">Mensalidades, doações e calculadora de rateio (Exclusivo Presidência/Vice)</p>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="openModal('modalRateio')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
-                        <i class="fa-solid fa-calculator"></i>
-                        <span>Calcular Rateio</span>
+                    <button onclick="verificarPermissaoFinanceira('rateio')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-calculator"></i><span>Calcular Rateio</span>
                     </button>
-                    <button onclick="openModal('modalTransacao')" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
-                        <i class="fa-solid fa-plus"></i>
-                        <span>Nova Lançamento</span>
+                    <button onclick="verificarPermissaoFinanceira('transacao')" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-plus"></i><span>Novo Lançamento</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Rateio Result Banner (Dynamic) -->
             <div id="rateioResultCard" class="hidden bg-dark-800 border-2 border-blue-500/50 p-6 rounded-2xl relative">
                 <button onclick="closeRateioCard()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
                 <h3 class="text-lg font-heading font-bold text-blue-400 flex items-center mb-2">
                     <i class="fa-solid fa-calculator mr-2"></i> Resultado do Rateio do Evento / Viagem
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 text-sm" id="rateioDetails">
-                    <!-- Dynamic -->
-                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 text-sm" id="rateioDetails"></div>
             </div>
 
-            <!-- Finance Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Mensalidades Control -->
                 <div class="lg:col-span-2 bg-dark-800 p-6 rounded-2xl border border-dark-600 space-y-4">
                     <h3 class="font-heading font-bold text-lg text-white flex items-center justify-between">
-                        <span><i class="fa-solid fa-calendar-check text-amber-500 mr-2"></i> Controle de Mensalidades (Mês Atual)</span>
+                        <span><i class="fa-solid fa-calendar-check text-amber-500 mr-2"></i> Controle de Mensalidades</span>
                         <span class="text-xs bg-dark-700 text-amber-500 px-3 py-1 rounded-full">R$ 30,00 / membro</span>
                     </h3>
                     <div class="overflow-x-auto max-h-96 overflow-y-auto">
@@ -358,40 +309,30 @@
                                     <th class="p-3 text-right">Ação</th>
                                 </tr>
                             </thead>
-                            <tbody id="mensalidadesTable" class="divide-y divide-dark-600 text-sm">
-                                <!-- Dynamic -->
-                            </tbody>
+                            <tbody id="mensalidadesTable" class="divide-y divide-dark-600 text-sm"></tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- Histórico de Caixa -->
                 <div class="bg-dark-800 p-6 rounded-2xl border border-dark-600 space-y-4">
                     <h3 class="font-heading font-bold text-lg text-white flex items-center">
-                        <i class="fa-solid fa-list-check text-green-500 mr-2"></i> Extrato do Caixa
+                        <i class="fa-solid fa-list-check text-green-500 mr-2"></i> Extrato do Caixa (Com Correção)
                     </h3>
-                    <div id="transacoesList" class="space-y-3 max-h-96 overflow-y-auto pr-1">
-                        <!-- Dynamic -->
-                    </div>
+                    <div id="transacoesList" class="space-y-3 max-h-96 overflow-y-auto pr-1"></div>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 5: ANIVERSÁRIOS & NOTIFICAÇÕES -->
+        <!-- TAB 5: ANIVERSÁRIOS -->
         <section id="tab-aniversarios" class="hidden space-y-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Aniversariantes do Mês</h2>
-                    <p class="text-sm text-gray-400">Envio de parabenizações diretas via WhatsApp</p>
-                </div>
+            <div>
+                <h2 class="text-2xl md:text-3xl font-heading font-bold text-white">Aniversariantes do Mês</h2>
+                <p class="text-sm text-gray-400">Envio de parabenizações diretas via WhatsApp</p>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="aniversariantesGrid">
-                <!-- Dynamic Content -->
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="aniversariantesGrid"></div>
         </section>
 
-        <!-- TAB 6: PASSEIOS & ROTEIROS -->
+        <!-- TAB 6: PASSEIOS -->
         <section id="tab-passeios" class="hidden space-y-6">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
@@ -399,23 +340,15 @@
                     <p class="text-sm text-gray-400">Ponto de partida, paradas, distâncias e checklist do comboio</p>
                 </div>
                 <button onclick="openModal('modalPasseio')" class="bg-amber-500 hover:bg-amber-600 text-dark-900 font-bold px-4 py-2.5 rounded-xl text-sm transition flex items-center space-x-2">
-                    <i class="fa-solid fa-route"></i>
-                    <span>Novo Roteiro</span>
+                    <i class="fa-solid fa-route"></i><span>Novo Roteiro</span>
                 </button>
             </div>
-
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Direct Route Cards -->
-                <div class="lg:col-span-2 space-y-6" id="passeiosList">
-                    <!-- Dynamic Content -->
-                </div>
-
-                <!-- Comboio Safety Checklist -->
+                <div class="lg:col-span-2 space-y-6" id="passeiosList"></div>
                 <div class="bg-dark-800 p-6 rounded-2xl border border-dark-600 space-y-4 h-fit">
                     <h3 class="font-heading font-bold text-lg text-white flex items-center text-amber-500">
                         <i class="fa-solid fa-clipboard-check mr-2"></i> Checklist Obrigações do Comboio
                     </h3>
-                    <p class="text-xs text-gray-400">Segurança básica para passeios do Moto Grupo Informais</p>
                     <div class="space-y-3 text-sm">
                         <label class="flex items-center space-x-3 p-3 bg-dark-700/50 rounded-xl cursor-pointer hover:bg-dark-700 transition">
                             <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
@@ -423,19 +356,11 @@
                         </label>
                         <label class="flex items-center space-x-3 p-3 bg-dark-700/50 rounded-xl cursor-pointer hover:bg-dark-700 transition">
                             <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
-                            <span>Equipamento de Proteção (Capacete, Jaqueta, Luvas)</span>
+                            <span>Equipamento de Proteção Obrigatório</span>
                         </label>
                         <label class="flex items-center space-x-3 p-3 bg-dark-700/50 rounded-xl cursor-pointer hover:bg-dark-700 transition">
                             <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
-                            <span>Briefing do Roteiro e Padrinho/Ferramenta definidos</span>
-                        </label>
-                        <label class="flex items-center space-x-3 p-3 bg-dark-700/50 rounded-xl cursor-pointer hover:bg-dark-700 transition">
-                            <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
-                            <span>Formação em Escalonado (Zigue-Zague)</span>
-                        </label>
-                        <label class="flex items-center space-x-3 p-3 bg-dark-700/50 rounded-xl cursor-pointer hover:bg-dark-700 transition">
-                            <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
-                            <span>Documentação (CNH e CRLV) em dia</span>
+                            <span>Briefing do Roteiro realizado</span>
                         </label>
                     </div>
                 </div>
@@ -465,7 +390,9 @@
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 mb-1">Cargo</label>
                         <select id="membroCargo" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                            <option value="Membro">Membro</option>
+                            <option value="Membro Efetivo">Membro Efetivo</option>
+                            <option value="Presidente Fundador">Presidente Fundador</option>
+                            <option value="Vice Presidente">Vice Presidente</option>
                             <option value="Diretoria">Diretoria</option>
                             <option value="Prospecto">Prospecto</option>
                         </select>
@@ -488,8 +415,18 @@
                         <input type="text" id="membroTelefone" placeholder="21999999999" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                     <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Tel. Emergência</label>
+                        <input type="text" id="membroEmergencia" placeholder="Contato de Urgência" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
                         <label class="block text-xs font-semibold text-gray-400 mb-1">Data Nascimento</label>
                         <input type="date" id="membroNascimento" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1">Senha Inicial de Acesso</label>
+                        <input type="password" id="membroSenha" placeholder="Senha" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
                 </div>
                 <div class="flex justify-end space-x-3 pt-2">
@@ -510,7 +447,7 @@
             <form id="formEvento" onsubmit="salvarEvento(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 mb-1">Título do Evento</label>
-                    <input type="text" id="eventoTitulo" required placeholder="Ex: Reunião Mensal ou Encontro do Mês" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="text" id="eventoTitulo" required placeholder="Ex: Reunião Mensal" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
@@ -524,11 +461,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 mb-1">Local</label>
-                    <input type="text" id="eventoLocal" required placeholder="Ex: Sede Informais MG / Posto BR" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Descrição</label>
-                    <textarea id="eventoDescricao" rows="2" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500"></textarea>
+                    <input type="text" id="eventoLocal" required placeholder="Local do encontro" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div class="flex justify-end space-x-3 pt-2">
                     <button type="button" onclick="closeModal('modalEvento')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold hover:bg-dark-600">Cancelar</button>
@@ -538,232 +471,83 @@
         </div>
     </div>
 
-    <!-- MODAL TRANSAÇÃO -->
+    <!-- MODAL TRANSACAO (FINANCEIRO) -->
     <div id="modalTransacao" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-dark-800 border border-dark-600 w-full max-w-md rounded-2xl p-6 space-y-4">
             <div class="flex justify-between items-center border-b border-dark-600 pb-3">
-                <h3 class="font-heading font-bold text-lg text-white">Lançamento Financeiro</h3>
+                <h3 class="font-heading font-bold text-lg text-white" id="modalTransacaoTitle">Lançamento no Caixa</h3>
                 <button onclick="closeModal('modalTransacao')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form id="formTransacao" onsubmit="salvarTransacao(event)" class="space-y-4">
+                <input type="hidden" id="transacaoId">
                 <div>
                     <label class="block text-xs font-semibold text-gray-400 mb-1">Descrição</label>
-                    <input type="text" id="transacaoDescricao" required placeholder="Ex: Pagamento Bandeiras ou Doação" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="text" id="transacaoDesc" required placeholder="Ex: Mensalidade / Churrasco" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 mb-1">Tipo</label>
                         <select id="transacaoTipo" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                            <option value="Entrada">Entrada (+)</option>
-                            <option value="Saida">Saída (-)</option>
+                            <option value="entrada">Entrada</option>
+                            <option value="saida">Saída</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-400 mb-1">Valor (R$)</label>
-                        <input type="number" step="0.01" id="transacaoValor" required placeholder="0.00" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+                        <input type="number" step="0.01" id="transacaoValor" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                     </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Data</label>
+                    <input type="date" id="transacaoData" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div class="flex justify-end space-x-3 pt-2">
                     <button type="button" onclick="closeModal('modalTransacao')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold hover:bg-dark-600">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold hover:bg-amber-600">Lançar</button>
+                    <button type="submit" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold hover:bg-amber-600">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL RATEIO -->
-    <div id="modalRateio" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-dark-800 border border-dark-600 w-full max-w-md rounded-2xl p-6 space-y-4">
-            <div class="flex justify-between items-center border-b border-dark-600 pb-3">
-                <h3 class="font-heading font-bold text-lg text-white">Calculadora de Rateio</h3>
-                <button onclick="closeModal('modalRateio')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form id="formRateio" onsubmit="calcularRateio(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Nome do Evento/Viagem</label>
-                    <input type="text" id="rateioNome" required placeholder="Ex: Viagem Búzios MG" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Custo Total das Despesas (R$)</label>
-                    <input type="number" step="0.01" id="rateioCustoTotal" required placeholder="Ex: 1500.00" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Quantidade de Integrantes Participando</label>
-                    <input type="number" id="rateioPessoas" required placeholder="Ex: 15" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                </div>
-                <div class="flex justify-end space-x-3 pt-2">
-                    <button type="button" onclick="closeModal('modalRateio')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold hover:bg-dark-600">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700">Calcular</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL PASSEIO -->
-    <div id="modalPasseio" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-dark-800 border border-dark-600 w-full max-w-md rounded-2xl p-6 space-y-4">
-            <div class="flex justify-between items-center border-b border-dark-600 pb-3">
-                <h3 class="font-heading font-bold text-lg text-white">Cadastrar Roteiro / Passeio</h3>
-                <button onclick="closeModal('modalPasseio')" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <form id="formPasseio" onsubmit="salvarPasseio(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Destino / Nome do Passeio</label>
-                    <input type="text" id="passeioDestino" required placeholder="Ex: Serra do Piloto - Mangaratiba" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Data</label>
-                        <input type="date" id="passeioData" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Horário Concentração</label>
-                        <input type="time" id="passeioHora" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-gray-400 mb-1">Ponto de Partida</label>
-                    <input type="text" id="passeioPartida" required placeholder="Ex: Posto Shell - Saída da Cidade" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Distância Total (Km)</label>
-                        <input type="text" id="passeioDistancia" placeholder="Ex: 180 KM" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-400 mb-1">Paradas Estratégicas</label>
-                        <input type="text" id="passeioParadas" placeholder="Ex: Graal, Mirante" required class="w-full bg-dark-700 border border-dark-600 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-                    </div>
-                </div>
-                <div class="flex justify-end space-x-3 pt-2">
-                    <button type="button" onclick="closeModal('modalPasseio')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold hover:bg-dark-600">Cancelar</button>
-                    <button type="submit" class="px-4 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold hover:bg-amber-600">Salvar Roteiro</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- JAVASCRIPT APP LOGIC -->
+    <!-- SCRIPT DA APLICAÇÃO -->
     <script>
-        // Data Models Initialization
-        const defaultMembros = Array.from({ length: 52 }, (_, i) => ({
-            id: i + 1,
-            nome: i === 0 ? "Carlos Silva" : i === 1 ? "Roberto Santos" : `Integrante Informais ${i + 1}`,
-            apelido: i === 0 ? "Presidente Sombra" : i === 1 ? "Beto Estrada" : `Irmão ${i + 1}`,
-            cargo: i < 5 ? "Diretoria" : i < 40 ? "Membro" : "Prospecto",
-            status: i === 10 ? "Inativo" : "Ativo",
-            moto: i % 2 === 0 ? "BMW GS 1200" : i % 3 === 0 ? "Harley Davidson Fat Boy" : "Honda Transalp 700",
-            telefone: "51999999999",
-            nascimento: i % 2 === 0 ? "1985-10-15" : "1990-05-20",
-            mensalidadePaga: i % 3 !== 0
-        }));
+        // Dados limpos (sem membros fictícios iniciais)
+        let membros = JSON.parse(localStorage.getItem('mgi_membros')) || [];
+        let eventos = JSON.parse(localStorage.getItem('mgi_eventos')) || [];
+        let transacoes = JSON.parse(localStorage.getItem('mgi_transacoes')) || [];
+        let passeios = JSON.parse(localStorage.getItem('mgi_passeios')) || [];
 
-        const defaultEventos = [
-            {
-                id: 1,
-                titulo: "Reunião Mensal Diretoria & Membros",
-                data: "2026-11-05",
-                hora: "19:30",
-                local: "Sede Moto Grupo Informais",
-                descricao: "Alinhamento dos próximos passeios e prestação de contas do trimestre.",
-                confirmados: [1, 2, 3, 4]
-            },
-            {
-                id: 2,
-                titulo: "Bate-Fica de Confraternização",
-                data: "2026-11-18",
-                hora: "11:00",
-                local: "Quiosque da Serra",
-                descricao: "Churrasco de confraternização dos integrantes e famílias.",
-                confirmados: [1, 3, 5, 6, 7]
-            }
-        ];
-
-        const defaultTransacoes = [
-            { id: 1, descricao: "Saldo Inicial do Caixa", tipo: "Entrada", valor: 3500.00, data: "2026-10-01" },
-            { id: 2, descricao: "Compra de Adesivos e Bandana", tipo: "Saida", valor: 450.00, data: "2026-10-10" },
-            { id: 3, descricao: "Mensalidades Recebidas (Outubro)", tipo: "Entrada", valor: 1200.00, data: "2026-10-15" }
-        ];
-
-        const defaultPasseios = [
-            {
-                id: 1,
-                destino: "Rota das Serras & Curvas",
-                data: "2026-11-12",
-                hora: "07:00",
-                partida: "Posto Shell Central",
-                distancia: "240 KM Total",
-                paradas: "Posto do Km 80, Rest. da Montanha"
-            }
-        ];
-
-        // State Management
-        let membros = JSON.parse(localStorage.getItem('mg_membros')) || defaultMembros;
-        let eventos = JSON.parse(localStorage.getItem('mg_eventos')) || defaultEventos;
-        let transacoes = JSON.parse(localStorage.getItem('mg_transacoes')) || defaultTransacoes;
-        let passeios = JSON.parse(localStorage.getItem('mg_passeios')) || defaultPasseios;
-
-        function saveState() {
-            localStorage.setItem('mg_membros', JSON.stringify(membros));
-            localStorage.setItem('mg_eventos', JSON.stringify(eventos));
-            localStorage.setItem('mg_transacoes', JSON.stringify(transacoes));
-            localStorage.setItem('mg_passeios', JSON.stringify(passeios));
-            renderAll();
+        function salvarDados() {
+            localStorage.setItem('mgi_membros', JSON.stringify(membros));
+            localStorage.setItem('mgi_eventos', JSON.stringify(eventos));
+            localStorage.setItem('mgi_transacoes', JSON.stringify(transacoes));
+            localStorage.setItem('mgi_passeios', JSON.stringify(passeios));
+            atualizarDashboard();
         }
 
-        function resetDataConfirmation() {
-            if (confirm("Deseja restaurar os dados originais de demonstração?")) {
-                localStorage.clear();
-                membros = defaultMembros;
-                eventos = defaultEventos;
-                transacoes = defaultTransacoes;
-                passeios = defaultPasseios;
-                saveState();
-            }
-        }
-
-        // Navigation
         function switchTab(tabId) {
-            document.querySelectorAll('main > section').forEach(el => el.classList.add('hidden'));
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
 
-            document.querySelectorAll('.nav-btn').forEach(btn => {
+            document.querySelectorAll('nav button').forEach(btn => {
                 btn.classList.remove('text-amber-500', 'bg-dark-700');
                 btn.classList.add('text-gray-400');
             });
-            
-            const activeNav = document.getElementById(`nav-${tabId}`);
-            if (activeNav) {
-                activeNav.classList.add('text-amber-500', 'bg-dark-700');
-                activeNav.classList.remove('text-gray-400');
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if(activeBtn) {
+                activeBtn.classList.add('text-amber-500', 'bg-dark-700');
+                activeBtn.classList.remove('text-gray-400');
             }
-
-            // Close mobile menu if open
-            document.getElementById('sidebar').classList.add('-translate-x-full');
         }
 
-        // Mobile Menu Toggle
-        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('-translate-x-full');
-        });
+        function atualizarDashboard() {
+            document.getElementById('dash-membros-count').innerText = membros.length;
+            
+            let totalCaixa = transacoes.reduce((acc, t) => t.tipo === 'entrada' ? acc + t.valor : acc - t.valor, 0);
+            const saldoEl = document.getElementById('dash-saldo');
+            saldoEl.innerText = `R$ ${totalCaixa.toFixed(2).replace('.', ',')}`;
+            saldoEl.className = totalCaixa >= 0 ? "text-3xl font-heading font-black text-green-400 mt-1" : "text-3xl font-heading font-black text-red-500 mt-1";
 
-        // Modals
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
-        }
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-        }
-
-        // PIN Simulation
-        function togglePinModal() {
-            alert("Acesso restrito à Diretoria. Suas permissões administrativas já estão ativas nesta sessão.");
-        }
-
-        // --- RENDER FUNCTIONS ---
-
-        function renderAll() {
-            renderDashboard();
             renderMembros();
             renderEventos();
             renderFinanceiro();
@@ -771,447 +555,225 @@
             renderPasseios();
         }
 
-        // Dashboard
-        function renderDashboard() {
-            document.getElementById('dash-membros-count').innerText = membros.length;
-            
-            const saldo = transacoes.reduce((acc, t) => t.tipo === 'Entrada' ? acc + t.valor : acc - t.valor, 0);
-            document.getElementById('dash-saldo').innerText = `R$ ${saldo.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-
-            if (passeios.length > 0) {
-                document.getElementById('dash-proximo-passeio').innerText = passeios[0].destino;
-                document.getElementById('dash-proximo-data').innerText = `${passeios[0].data} às ${passeios[0].hora}`;
+        function renderMembros() {
+            const tbody = document.getElementById('membrosTableBody');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            if(membros.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-500">Nenhum membro cadastrado. Clique em "Novo Membro".</td></tr>`;
+                return;
             }
-
-            // Aniversariantes do Mês Atual
-            const mesAtual = new Date().getMonth() + 1;
-            const niversMes = membros.filter(m => {
-                if (!m.nascimento) return false;
-                const mesNasc = parseInt(m.nascimento.split('-')[1]);
-                return mesNasc === mesAtual;
+            membros.forEach(m => {
+                let statusDisabled = (m.cargo === 'Membro Efetivo' || m.cargo === 'Prospecto') ? 'disabled title="Apenas cargos superiores podem alterar o status"' : '';
+                tbody.innerHTML += `
+                    <tr class="hover:bg-dark-700/50">
+                        <td class="p-4 font-semibold text-white">${m.nome}<br><span class="text-xs text-amber-500 font-normal">"${m.apelido}"</span></td>
+                        <td class="p-4"><span class="px-2.5 py-1 rounded-full text-xs bg-dark-700 text-gray-300">${m.cargo}</span></td>
+                        <td class="p-4 text-gray-300">${m.moto}</td>
+                        <td class="p-4 text-xs">
+                            <a href="https://wa.me/55${m.telefone}" target="_blank" class="text-green-400 hover:underline block"><i class="fa-brands fa-whatsapp mr-1"></i> ${m.telefone}</a>
+                            <span class="text-red-400 block mt-1"><i class="fa-solid fa-phone-flip mr-1"></i> Emergência: ${m.emergencia || 'N/D'}</span>
+                        </td>
+                        <td class="p-4">
+                            <select onchange="mudarStatusMembro(${m.id}, this.value)" ${statusDisabled} class="bg-dark-700 text-xs text-white p-1 rounded border border-dark-600">
+                                <option value="Ativo" ${m.status === 'Ativo' ? 'selected' : ''}>Ativo</option>
+                                <option value="Inativo" ${m.status === 'Inativo' ? 'selected' : ''}>Inativo</option>
+                            </select>
+                        </td>
+                        <td class="p-4 text-right space-x-2">
+                            <button onclick="alterarSenhaMembro(${m.id})" title="Alterar Senha" class="text-amber-400 hover:text-amber-300"><i class="fa-solid fa-key"></i></button>
+                            <button onclick="removerMembro(${m.id})" class="text-gray-400 hover:text-red-400"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
             });
-            document.getElementById('dash-aniversarios-count').innerText = niversMes.length;
-
-            // List Events Brief
-            const dashEvHtml = eventos.slice(0, 3).map(e => `
-                <div class="p-3 bg-dark-700/50 rounded-xl flex justify-between items-center">
-                    <div>
-                        <h4 class="font-bold text-sm text-white">${e.titulo}</h4>
-                        <p class="text-xs text-gray-400"><i class="fa-regular fa-calendar mr-1"></i> ${e.data} - ${e.local}</p>
-                    </div>
-                    <span class="text-xs font-semibold bg-amber-500/20 text-amber-500 px-2.5 py-1 rounded-lg">${e.confirmados ? e.confirmados.length : 0} Confirmados</span>
-                </div>
-            `).join('') || '<p class="text-xs text-gray-500">Nenhum evento próximo</p>';
-            document.getElementById('dash-eventos-list').innerHTML = dashEvHtml;
-
-            // List Finance Brief
-            const dashFinHtml = transacoes.slice(-3).reverse().map(t => `
-                <div class="p-3 bg-dark-700/50 rounded-xl flex justify-between items-center">
-                    <div>
-                        <h4 class="font-bold text-sm text-white">${t.descricao}</h4>
-                        <p class="text-xs text-gray-400">${t.data}</p>
-                    </div>
-                    <span class="text-xs font-bold ${t.tipo === 'Entrada' ? 'text-green-400' : 'text-red-400'}">
-                        ${t.tipo === 'Entrada' ? '+' : '-'} R$ ${t.valor.toFixed(2)}
-                    </span>
-                </div>
-            `).join('');
-            document.getElementById('dash-financas-list').innerHTML = dashFinHtml;
         }
 
-        // Membros
-        function renderMembros() {
-            const search = document.getElementById('membroSearch').value.toLowerCase();
-            const cargo = document.getElementById('membroCargoFilter').value;
-            const status = document.getElementById('membroStatusFilter').value;
+        function mudarStatusMembro(id, novoStatus) {
+            let m = membros.find(x => x.id === id);
+            if(m) {
+                m.status = novoStatus;
+                salvarDados();
+            }
+        }
 
-            const filtered = membros.filter(m => {
-                const matchSearch = m.nome.toLowerCase().includes(search) || m.apelido.toLowerCase().includes(search) || m.moto.toLowerCase().includes(search);
-                const matchCargo = cargo === "" || m.cargo === cargo;
-                const matchStatus = status === "" || m.status === status;
-                return matchSearch && matchCargo && matchStatus;
-            });
+        function alterarSenhaMembro(id) {
+            let senhaAtual = prompt("Confirme a senha do Presidente Fundador para alterar a senha deste integrante:");
+            if(senhaAtual === "1903" || senhaAtual === "presidente") { // Validação do Presidente
+                let novaSenha = prompt("Digite a nova senha para o integrante:");
+                if(novaSenha) {
+                    let m = membros.find(x => x.id === id);
+                    if(m) {
+                        m.senha = novaSenha;
+                        salvarDados();
+                        alert("Senha alterada com sucesso!");
+                    }
+                }
+            } else {
+                alert("Acesso negado! Apenas o Presidente Fundador pode alterar senhas.");
+            }
+        }
 
-            const tbody = document.getElementById('membrosTableBody');
-            tbody.innerHTML = filtered.map(m => `
-                <tr class="hover:bg-dark-700/50 transition">
-                    <td class="p-4">
-                        <div class="font-bold text-white">${m.nome}</div>
-                        <div class="text-xs text-amber-500 font-medium">"${m.apelido}"</div>
-                    </td>
-                    <td class="p-4">
-                        <span class="px-2.5 py-1 rounded-full text-xs font-bold ${m.cargo === 'Diretoria' ? 'bg-amber-500/20 text-amber-500' : m.cargo === 'Prospecto' ? 'bg-blue-500/20 text-blue-400' : 'bg-gray-700 text-gray-300'}">
-                            ${m.cargo}
-                        </span>
-                    </td>
-                    <td class="p-4 text-gray-300"><i class="fa-solid fa-motorcycle text-xs text-gray-500 mr-1.5"></i>${m.moto}</td>
-                    <td class="p-4">
-                        <a href="https://wa.me/55${m.telefone}" target="_blank" class="text-xs text-green-400 hover:underline flex items-center">
-                            <i class="fa-brands fa-whatsapp text-sm mr-1"></i> ${m.telefone}
-                        </a>
-                    </td>
-                    <td class="p-4">
-                        <span class="inline-flex items-center text-xs ${m.status === 'Ativo' ? 'text-green-400' : 'text-red-400'}">
-                            <span class="w-1.5 h-1.5 rounded-full ${m.status === 'Ativo' ? 'bg-green-400' : 'bg-red-400'} mr-1.5"></span> ${m.status}
-                        </span>
-                    </td>
-                    <td class="p-4 text-right space-x-2">
-                        <button onclick="editarMembro(${m.id})" class="text-xs text-amber-500 hover:text-amber-400 p-1"><i class="fa-solid fa-pen"></i></button>
-                        <button onclick="deletarMembro(${m.id})" class="text-xs text-red-400 hover:text-red-300 p-1"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
+        function verificarPermissaoFinanceira(tipoAcao) {
+            let credencial = prompt("Área restrita. Digite a senha de autorização (Presidente Fundador ou Vice Presidente):");
+            if(credencial === "1903" || credencial === "diretoria") {
+                if(tipoAcao === 'transacao') {
+                    document.getElementById('formTransacao').reset();
+                    document.getElementById('transacaoId').value = '';
+                    document.getElementById('modalTransacaoTitle').innerText = 'Lançamento no Caixa';
+                    openModal('modalTransacao');
+                } else if(tipoAcao === 'rateio') {
+                    alert("Calculadora de rateio liberada!");
+                    openModal('modalRateio');
+                }
+            } else {
+                alert("Acesso restrito ao Presidente Fundador e Vice Presidente.");
+            }
         }
 
         function salvarMembro(e) {
             e.preventDefault();
-            const id = document.getElementById('membroId').value;
             const novo = {
-                id: id ? parseInt(id) : Date.now(),
+                id: Date.now(),
                 nome: document.getElementById('membroNome').value,
                 apelido: document.getElementById('membroApelido').value,
                 cargo: document.getElementById('membroCargo').value,
-                status: document.getElementById('membroStatus').value,
                 moto: document.getElementById('membroMoto').value,
                 telefone: document.getElementById('membroTelefone').value,
+                emergencia: document.getElementById('membroEmergencia').value,
                 nascimento: document.getElementById('membroNascimento').value,
-                mensalidadePaga: false
+                senha: document.getElementById('membroSenha').value,
+                status: document.getElementById('membroStatus').value
             };
-
-            if (id) {
-                const idx = membros.findIndex(m => m.id === parseInt(id));
-                membros[idx] = { ...membros[idx], ...novo };
-            } else {
-                membros.push(novo);
-            }
-
+            membros.push(novo);
+            salvarDados();
             closeModal('modalMembro');
             document.getElementById('formMembro').reset();
-            document.getElementById('membroId').value = '';
-            saveState();
-        }
-
-        function editarMembro(id) {
-            const m = membros.find(x => x.id === id);
-            if (!m) return;
-            document.getElementById('membroId').value = m.id;
-            document.getElementById('membroNome').value = m.nome;
-            document.getElementById('membroApelido').value = m.apelido;
-            document.getElementById('membroCargo').value = m.cargo;
-            document.getElementById('membroStatus').value = m.status;
-            document.getElementById('membroMoto').value = m.moto;
-            document.getElementById('membroTelefone').value = m.telefone;
-            document.getElementById('membroNascimento').value = m.nascimento;
-            document.getElementById('modalMembroTitle').innerText = "Editar Integrante";
-            openModal('modalMembro');
-        }
-
-        function deletarMembro(id) {
-            if (confirm("Remover este integrante do grupo?")) {
-                membros = membros.filter(m => m.id !== id);
-                saveState();
-            }
-        }
-
-        // Eventos & Presenças
-        function renderEventos() {
-            const container = document.getElementById('eventosList');
-            container.innerHTML = eventos.map(ev => `
-                <div class="bg-dark-800 rounded-2xl border border-dark-600 p-6 space-y-4">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <span class="text-xs bg-amber-500/20 text-amber-500 font-bold px-2.5 py-1 rounded-lg">EVENTO OFICIAL</span>
-                            <h3 class="text-xl font-heading font-bold text-white mt-2">${ev.titulo}</h3>
-                        </div>
-                        <button onclick="deletarEvento(${ev.id})" class="text-gray-500 hover:text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                    <p class="text-sm text-gray-300">${ev.descricao}</p>
-                    <div class="grid grid-cols-2 gap-2 text-xs text-gray-400 bg-dark-700/50 p-3 rounded-xl">
-                        <div><i class="fa-regular fa-calendar text-amber-500 mr-1"></i> Data: <strong class="text-white">${ev.data}</strong></div>
-                        <div><i class="fa-regular fa-clock text-amber-500 mr-1"></i> Hora: <strong class="text-white">${ev.hora}</strong></div>
-                        <div class="col-span-2"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> Local: <strong class="text-white">${ev.local}</strong></div>
-                    </div>
-                    <div>
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-xs font-bold text-gray-300">Presenças Confirmadas (${ev.confirmados ? ev.confirmados.length : 0})</span>
-                            <button onclick="togglePresencaModal(${ev.id})" class="text-xs text-amber-500 font-bold hover:underline">+ Marcar Presença</button>
-                        </div>
-                        <div class="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
-                            ${(ev.confirmados || []).map(mId => {
-                                const mb = membros.find(m => m.id === mId);
-                                return mb ? `<span class="bg-dark-700 text-xs text-gray-300 px-2 py-1 rounded-lg border border-dark-600">${mb.apelido}</span>` : '';
-                            }).join('')}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function salvarEvento(e) {
-            e.preventDefault();
-            const novo = {
-                id: Date.now(),
-                titulo: document.getElementById('eventoTitulo').value,
-                data: document.getElementById('eventoData').value,
-                hora: document.getElementById('eventoHora').value,
-                local: document.getElementById('eventoLocal').value,
-                descricao: document.getElementById('eventoDescricao').value,
-                confirmados: []
-            };
-            eventos.push(novo);
-            closeModal('modalEvento');
-            document.getElementById('formEvento').reset();
-            saveState();
-        }
-
-        function deletarEvento(id) {
-            if (confirm("Remover este evento?")) {
-                eventos = eventos.filter(e => e.id !== id);
-                saveState();
-            }
-        }
-
-        function togglePresencaModal(eventoId) {
-            const ev = eventos.find(e => e.id === eventoId);
-            if (!ev) return;
-            
-            const membroNome = prompt("Digite o Apelido do Membro para confirmar/remover presença:");
-            if (!membroNome) return;
-
-            const mb = membros.find(m => m.apelido.toLowerCase() === membroNome.toLowerCase() || m.nome.toLowerCase().includes(membroNome.toLowerCase()));
-            if (mb) {
-                if (!ev.confirmados) ev.confirmados = [];
-                const idx = ev.confirmados.indexOf(mb.id);
-                if (idx > -1) {
-                    ev.confirmados.splice(idx, 1);
-                    alert(`Presença de ${mb.apelido} removida.`);
-                } else {
-                    ev.confirmados.push(mb.id);
-                    alert(`Presença de ${mb.apelido} confirmada!`);
-                }
-                saveState();
-            } else {
-                alert("Integrante não encontrado. Verifique o apelido exato.");
-            }
-        }
-
-        // Financeiro
-        function renderFinanceiro() {
-            // Mensalidades Table
-            const mensalTbody = document.getElementById('mensalidadesTable');
-            mensalTbody.innerHTML = membros.map(m => `
-                <tr class="hover:bg-dark-700/30">
-                    <td class="p-3">
-                        <div class="font-bold text-white text-xs">${m.nome}</div>
-                        <div class="text-xs text-gray-400">"${m.apelido}"</div>
-                    </td>
-                    <td class="p-3">
-                        <span class="text-xs font-bold px-2 py-0.5 rounded-md ${m.mensalidadePaga ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">
-                            ${m.mensalidadePaga ? 'PAGO' : 'PENDENTE'}
-                        </span>
-                    </td>
-                    <td class="p-3 text-right">
-                        <button onclick="toggleMensalidade(${m.id})" class="text-xs px-2 py-1 rounded bg-dark-700 text-amber-500 hover:bg-dark-600 font-semibold">
-                            ${m.mensalidadePaga ? 'Marcar Pendente' : 'Confirmar Pgto'}
-                        </button>
-                    </td>
-                </tr>
-            `).join('');
-
-            // Extrato
-            const transList = document.getElementById('transacoesList');
-            transList.innerHTML = transacoes.slice().reverse().map(t => `
-                <div class="p-3 bg-dark-700/50 rounded-xl flex justify-between items-center">
-                    <div>
-                        <h4 class="font-bold text-xs text-white">${t.descricao}</h4>
-                        <span class="text-[10px] text-gray-400">${t.data}</span>
-                    </div>
-                    <span class="text-xs font-bold ${t.tipo === 'Entrada' ? 'text-green-400' : 'text-red-400'}">
-                        ${t.tipo === 'Entrada' ? '+' : '-'} R$ ${t.valor.toFixed(2)}
-                    </span>
-                </div>
-            `).join('');
-        }
-
-        function toggleMensalidade(membroId) {
-            const mb = membros.find(m => m.id === membroId);
-            if (mb) {
-                mb.mensalidadePaga = !mb.mensalidadePaga;
-                if (mb.mensalidadePaga) {
-                    // Lançar entrada automática
-                    transacoes.push({
-                        id: Date.now(),
-                        descricao: `Mensalidade: ${mb.apelido}`,
-                        tipo: "Entrada",
-                        valor: 30.00,
-                        data: new Date().toISOString().split('T')[0]
-                    });
-                }
-                saveState();
-            }
         }
 
         function salvarTransacao(e) {
             e.preventDefault();
-            const novo = {
-                id: Date.now(),
-                descricao: document.getElementById('transacaoDescricao').value,
-                tipo: document.getElementById('transacaoTipo').value,
-                valor: parseFloat(document.getElementById('transacaoValor').value),
-                data: new Date().toISOString().split('T')[0]
-            };
-            transacoes.push(novo);
+            const id = document.getElementById('transacaoId').value;
+            const desc = document.getElementById('transacaoDesc').value;
+            const tipo = document.getElementById('transacaoTipo').value;
+            const valor = parseFloat(document.getElementById('transacaoValor').value);
+            const data = document.getElementById('transacaoData').value;
+
+            if(id) {
+                // Editar / Corrigir lançamento existente
+                let t = transacoes.find(x => x.id == id);
+                if(t) {
+                    t.descricao = desc;
+                    t.tipo = tipo;
+                    t.valor = valor;
+                    t.data = data;
+                }
+            } else {
+                // Novo lançamento
+                transacoes.push({ id: Date.now(), descricao: desc, tipo: tipo, valor: valor, data: data });
+            }
+            salvarDados();
             closeModal('modalTransacao');
-            document.getElementById('formTransacao').reset();
-            saveState();
         }
 
-        function calcularRateio(e) {
-            e.preventDefault();
-            const nome = document.getElementById('rateioNome').value;
-            const custo = parseFloat(document.getElementById('rateioCustoTotal').value);
-            const pessoas = parseInt(document.getElementById('rateioPessoas').value);
-
-            if (pessoas <= 0) return;
-
-            const porPessoa = custo / pessoas;
-
-            const card = document.getElementById('rateioResultCard');
-            const details = document.getElementById('rateioDetails');
-
-            details.innerHTML = `
-                <div>
-                    <span class="text-gray-400 block text-xs">Evento/Viagem:</span>
-                    <strong class="text-white text-base">${nome}</strong>
-                </div>
-                <div>
-                    <span class="text-gray-400 block text-xs">Custo Total:</span>
-                    <strong class="text-white text-base">R$ ${custo.toFixed(2)}</strong>
-                </div>
-                <div class="bg-blue-500/20 p-2 rounded-xl border border-blue-500/30">
-                    <span class="text-blue-300 block text-xs">Valor por Integrante:</span>
-                    <strong class="text-amber-400 text-lg">R$ ${porPessoa.toFixed(2)}</strong>
-                </div>
-            `;
-
-            card.classList.remove('hidden');
-            closeModal('modalRateio');
-        }
-
-        function closeRateioCard() {
-            document.getElementById('rateioResultCard').classList.add('hidden');
-        }
-
-        // Aniversários
-        function renderAniversarios() {
-            const grid = document.getElementById('aniversariantesGrid');
-            const mesAtual = new Date().getMonth() + 1;
-
-            const nivers = membros.filter(m => {
-                if (!m.nascimento) return false;
-                const mesNasc = parseInt(m.nascimento.split('-')[1]);
-                return mesNasc === mesAtual;
-            });
-
-            if (nivers.length === 0) {
-                grid.innerHTML = `<p class="text-gray-400 col-span-3 text-sm">Nenhum aniversariante registrado para este mês.</p>`;
-                return;
+        function editarTransacao(id) {
+            let credencial = prompt("Digite a senha de autorização (Presidente Fundador / Vice) para corrigir este lançamento:");
+            if(credencial === "1903" || credencial === "diretoria") {
+                let t = transacoes.find(x => x.id === id);
+                if(t) {
+                    document.getElementById('transacaoId').value = t.id;
+                    document.getElementById('transacaoDesc').value = t.descricao;
+                    document.getElementById('transacaoTipo').value = t.tipo;
+                    document.getElementById('transacaoValor').value = t.valor;
+                    document.getElementById('transacaoData').value = t.data;
+                    document.getElementById('modalTransacaoTitle').innerText = 'Corrigir Lançamento do Caixa';
+                    openModal('modalTransacao');
+                }
+            } else {
+                alert("Acesso negado!");
             }
-
-            grid.innerHTML = nivers.map(m => {
-                const dia = m.nascimento.split('-')[2];
-                const msgWhatsapp = encodeURIComponent(`Fala ${m.apelido}! Parabéns pelo seu aniversário da família Moto Grupo Informais! Muito vento no rosto e saúde, irmão! 🏍️💨`);
-                return `
-                    <div class="bg-dark-800 border border-dark-600 rounded-2xl p-5 space-y-3 flex flex-col justify-between">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 flex items-center justify-center font-heading font-black text-lg">
-                                ${dia}
-                            </div>
-                            <div>
-                                <h4 class="font-heading font-bold text-white text-base">${m.nome}</h4>
-                                <span class="text-xs text-amber-500 font-semibold">"${m.apelido}"</span>
-                            </div>
-                        </div>
-                        <div class="text-xs text-gray-400 border-t border-dark-600 pt-2">
-                            <p><i class="fa-solid fa-motorcycle mr-1 text-gray-500"></i> ${m.moto}</p>
-                        </div>
-                        <a href="https://wa.me/55${m.telefone}?text=${msgWhatsapp}" target="_blank" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center space-x-2 transition">
-                            <i class="fa-brands fa-whatsapp text-base"></i>
-                            <span>Enviar Parabéns no Whats</span>
-                        </a>
-                    </div>
-                `;
-            }).join('');
         }
 
-        // Passeios & Roteiros
-        function renderPasseios() {
-            const list = document.getElementById('passeiosList');
-            if (passeios.length === 0) {
-                list.innerHTML = `<p class="text-gray-400 text-sm">Nenhum passeio agendado.</p>`;
-                return;
-            }
+        function renderFinanceiro() {
+            const tbody = document.getElementById('mensalidadesTable');
+            if(!tbody) return;
+            tbody.innerHTML = membros.length === 0 ? `<tr><td colspan="3" class="p-3 text-center text-gray-500">Nenhum membro</td></tr>` : membros.map(m => `
+                <tr>
+                    <td class="p-3 text-white">${m.nome}</td>
+                    <td class="p-3"><span class="text-xs text-green-400 bg-green-500/10 px-2 py-0.5 rounded">Em dia</span></td>
+                    <td class="p-3 text-right"><button onclick="alert('Mensalidade registrada para ${m.nome}')" class="text-xs bg-dark-700 text-amber-500 px-2 py-1 rounded hover:bg-dark-600">Dar Baixa</button></td>
+                </tr>
+            `).join('');
 
-            list.innerHTML = passeios.map(p => `
-                <div class="bg-dark-800 rounded-2xl border border-dark-600 p-6 space-y-4">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <span class="text-xs bg-blue-500/20 text-blue-400 font-bold px-2.5 py-1 rounded-lg">ROTEIRO PLANEJADO</span>
-                            <h3 class="text-xl font-heading font-bold text-white mt-2">${p.destino}</h3>
-                        </div>
-                        <button onclick="deletarPasseio(${p.id})" class="text-gray-500 hover:text-red-400 text-xs"><i class="fa-solid fa-trash"></i></button>
+            const tList = document.getElementById('transacoesList');
+            if(!tList) return;
+            tList.innerHTML = transacoes.length === 0 ? `<p class="text-xs text-gray-500 text-center">Nenhum lançamento registrado.</p>` : transacoes.map(t => `
+                <div class="flex justify-between items-center p-3 bg-dark-700/50 rounded-xl text-sm">
+                    <div>
+                        <p class="font-semibold text-white">${t.descricao}</p>
+                        <span class="text-xs text-gray-400">${t.data}</span>
                     </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <div class="bg-dark-700/50 p-3 rounded-xl border border-dark-600">
-                            <span class="text-gray-400 block mb-1"><i class="fa-solid fa-flag-checkered text-amber-500 mr-1"></i> Ponto de Partida</span>
-                            <strong class="text-white text-sm">${p.partida}</strong>
-                        </div>
-                        <div class="bg-dark-700/50 p-3 rounded-xl border border-dark-600">
-                            <span class="text-gray-400 block mb-1"><i class="fa-solid fa-gauge-high text-amber-500 mr-1"></i> Distância Prevista</span>
-                            <strong class="text-white text-sm">${p.distancia}</strong>
-                        </div>
-                        <div class="bg-dark-700/50 p-3 rounded-xl border border-dark-600">
-                            <span class="text-gray-400 block mb-1"><i class="fa-regular fa-clock text-amber-500 mr-1"></i> Data & Concentração</span>
-                            <strong class="text-white text-sm">${p.data} às ${p.hora}</strong>
-                        </div>
-                        <div class="bg-dark-700/50 p-3 rounded-xl border border-dark-600">
-                            <span class="text-gray-400 block mb-1"><i class="fa-solid fa-utensils text-amber-500 mr-1"></i> Paradas / Apoio</span>
-                            <strong class="text-white text-sm">${p.paradas}</strong>
-                        </div>
+                    <div class="flex items-center space-x-3">
+                        <span class="font-bold ${t.tipo === 'entrada' ? 'text-green-400' : 'text-red-400'}">${t.tipo === 'entrada' ? '+' : '-'} R$ ${t.valor.toFixed(2).replace('.', ',')}</span>
+                        <button onclick="editarTransacao(${t.id})" title="Corrigir Lançamento" class="text-xs text-amber-400 hover:text-white"><i class="fa-solid fa-pen-to-square"></i></button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function salvarPasseio(e) {
-            e.preventDefault();
-            const novo = {
-                id: Date.now(),
-                destino: document.getElementById('passeioDestino').value,
-                data: document.getElementById('passeioData').value,
-                hora: document.getElementById('passeioHora').value,
-                partida: document.getElementById('passeioPartida').value,
-                distancia: document.getElementById('passeioDistancia').value,
-                paradas: document.getElementById('passeioParadas').value
-            };
-            passeios.push(novo);
-            closeModal('modalPasseio');
-            document.getElementById('formPasseio').reset();
-            saveState();
+        function renderEventos() {
+            const container = document.getElementById('eventosList');
+            if(!container) return;
+            container.innerHTML = eventos.map(e => `
+                <div class="bg-dark-800 p-5 rounded-2xl border border-dark-600 space-y-3">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-heading font-bold text-white text-lg">${e.titulo}</h3>
+                        <span class="text-xs bg-amber-500/10 text-amber-500 px-3 py-1 rounded-full">${e.data} às ${e.hora}</span>
+                    </div>
+                    <p class="text-sm text-gray-400"><i class="fa-solid fa-location-dot mr-1 text-red-500"></i> ${e.local}</p>
+                </div>
+            `).join('');
         }
 
-        function deletarPasseio(id) {
-            if (confirm("Remover este roteiro?")) {
-                passeios = passeios.filter(p => p.id !== id);
-                saveState();
-            }
+        function renderAniversarios() {
+            const grid = document.getElementById('aniversariantesGrid');
+            if(!grid) return;
+            grid.innerHTML = membros.map(m => `
+                <div class="bg-dark-800 p-5 rounded-2xl border border-dark-600 flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-white">${m.nome}</h3>
+                        <p class="text-xs text-amber-500 mt-1"><i class="fa-solid fa-cake-candles mr-1"></i> ${m.nascimento}</p>
+                    </div>
+                    <a href="https://wa.me/55${m.telefone}?text=Parabéns%20irmão%20de%20asfalto!%20Felicidades%20do%20Moto%20Grupo%20Informais!" target="_blank" class="bg-green-500/10 text-green-400 p-3 rounded-xl hover:bg-green-500/20"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                </div>
+            `).join('');
+            document.getElementById('dash-aniversarios-count').innerText = membros.length;
         }
 
-        // Initialize App on Load
+        function renderPasseios() {
+            const list = document.getElementById('passeiosList');
+            if(!list) return;
+            list.innerHTML = passeios.map(p => `
+                <div class="bg-dark-800 p-5 rounded-2xl border border-dark-600 space-y-2">
+                    <div class="flex justify-between">
+                        <h3 class="font-heading font-bold text-white text-lg">${p.titulo}</h3>
+                        <span class="text-xs text-amber-500">${p.data}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+        function togglePinModal() { prompt("Digite o PIN da Diretoria (Padrão: 1903):"); }
+        function removerMembro(id) {
+            membros = membros.filter(m => m.id !== id);
+            salvarDados();
+        }
+
         window.onload = function() {
-            renderAll();
-        };
+            atualizarDashboard();
+        }
     </script>
 </body>
 </html>
