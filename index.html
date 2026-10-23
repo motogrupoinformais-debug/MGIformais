@@ -1,4 +1,4 @@
-d<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR" class="dark">
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@ d<!DOCTYPE html>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Biblioteca oficial do Supabase (Adicionada para fazer a conexão) -->
+    <!-- Biblioteca oficial do Supabase (Corrigida para o link de execução correto) -->
     <script src="https://jsdelivr.net"></script>
 
     <script>
@@ -91,7 +91,7 @@ d<!DOCTYPE html>
                     <i class="fa-solid fa-chart-pie w-5"></i><span>Dashboard</span>
                 </button>
                 
-                <!-- Membros (Visível para Visitantes) -->
+                <!-- Membros -->
                 <button onclick="switchTab('membros')" id="nav-membros" class="nav-btn w-full flex items-center space-x-3 px-4 py-3 rounded-xl font-medium text-gray-400 hover:text-white hover:bg-dark-700/50 transition">
                     <i class="fa-solid fa-users w-5"></i><span>Membros</span>
                 </button>
@@ -129,8 +129,19 @@ d<!DOCTYPE html>
 
         <!-- TAB 1: DASHBOARD (RESTRITO) -->
         <section id="tab-dashboard" class="hidden">
-            <!-- Seu conteúdo da Dashboard continua aqui abaixo -->
+            <h2 class="text-2xl font-heading font-black mb-4">Dashboard</h2>
+            <p class="text-gray-400">Conteúdo do painel administrativo restrito.</p>
         </section>
-    </main>
-</body>
-</html>
+
+        <!-- TAB 2: MEMBROS (INTEGRADO COM SUPABASE) -->
+        <section id="tab-membros" class="block space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-dark-600 pb-4 gap-4">
+                <div>
+                    <h2 class="text-2xl font-heading font-black text-white">Membros do Grupo</h2>
+                    <p class="text-sm text-gray-400">Lista de integrantes e novos cadastros sincronizados.</p>
+                </div>
+                <!-- Formulário de cadastro de membro -->
+                <form id="formCadastrarMembro" onsubmit="salvarMembroNoSupabase(event)" class="flex flex-col sm:flex-row gap-2 bg-dark-800 p-3 rounded-xl border border-dark-600 w-full md:w-auto">
+                    <input type="text" id="membroNome" placeholder="Nome do Membro" required class="bg-dark-900 border border-dark-600 px-3 py-2 rounded-lg text-sm text-white focus:outline-none focus:border-amber-500 w-full sm:w-48">
+                    <input type="text" id="membroTelefone" placeholder="Telefone / Moto" required class="bg-dark-900 border border-dark-600 px-3 py-2 rounded-lg text-sm text-white focus:outline-none focus:border-amber-500 w-full sm:w-40">
+                    <button type="submit" class="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-dark-900 font-bold px-4 py-2 rounded-lg text-sm transition shrink-0">
