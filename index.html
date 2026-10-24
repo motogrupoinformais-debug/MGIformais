@@ -483,5 +483,136 @@
             </form>
         </div>
     </div>
+    <!-- MODAL DE LOGIN / PIN -->
+    <div id="modalLogin" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-dark-800 border border-dark-600 w-full max-w-sm rounded-2xl p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-dark-600 pb-3">
+                <h3 class="font-heading font-bold text-lg text-white"><i class="fa-solid fa-lock text-amber-500 mr-2"></i>Acesso Restrito</h3>
+                <button onclick="closeModal('modalLogin')" class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="formLogin" onsubmit="autenticarUsuario(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Senha / PIN de Acesso</label>
+                    <input type="password" id="loginPin" required placeholder="Digite sua senha" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closeModal('modalLogin')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div><!-- MODAL DE LOGIN / PIN -->
+    <div id="modalLogin" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-dark-800 border border-dark-600 w-full max-w-sm rounded-2xl p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-dark-600 pb-3">
+                <h3 class="font-heading font-bold text-lg text-white"><i class="fa-solid fa-lock text-amber-500 mr-2"></i>Acesso Restrito</h3>
+                <button onclick="closeModal('modalLogin')" class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="formLogin" onsubmit="autenticarUsuario(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Senha / PIN de Acesso</label>
+                    <input type="password" id="loginPin" required placeholder="Digite sua senha" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closeModal('modalLogin')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+   <!-- MODAL DE LOGIN / PIN -->
+    <div id="modalLogin" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-dark-800 border border-dark-600 w-full max-w-sm rounded-2xl p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-dark-600 pb-3">
+                <h3 class="font-heading font-bold text-lg text-white"><i class="fa-solid fa-lock text-amber-500 mr-2"></i>Acesso Restrito</h3>
+                <button onclick="closeModal('modalLogin')" class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="formLogin" onsubmit="autenticarUsuario(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1">Senha / PIN de Acesso</label>
+                    <input type="password" id="loginPin" required placeholder="Digite sua senha" class="w-full bg-dark-700 border border-dark-600 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div class="flex justify-end space-x-3 pt-2">
+                    <button type="button" onclick="closeModal('modalLogin')" class="px-4 py-2 bg-dark-700 text-gray-300 rounded-xl text-sm font-semibold">Cancelar</button>
+                    <button type="submit" class="px-5 py-2 bg-amber-500 text-dark-900 rounded-xl text-sm font-bold">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div> 
+    <script>
+        // Função do Botão Login/Logout da Sidebar
+        function fazerLoginLogout() {
+            const userLogged = localStorage.getItem('userLogged');
+            if (userLogged) {
+                // Se já estiver logado, faz Logout
+                localStorage.removeItem('userLogged');
+                document.getElementById('userLoggedName').innerText = 'Visitante';
+                document.getElementById('userLoggedRole').innerText = 'Modo Leitura';
+                document.getElementById('btnLoginLogout').innerText = 'Login';
+                document.getElementById('pinStatusDot').className = 'w-2.5 h-2.5 bg-gray-500 rounded-full';
+                
+                // Esconde abas restritas
+                document.querySelectorAll('.nav-restrito').forEach(el => el.classList.add('hidden'));
+                switchTab('eventos');
+                alert('Você saiu do sistema.');
+            } else {
+                // Se for visitante, abre a modal de Login
+                openModal('modalLogin');
+            }
+        }
+
+        // Função para Processar o Login
+        function autenticarUsuario(e) {
+            e.preventDefault();
+            const pin = document.getElementById('loginPin').value;
+            
+            // Senha padrão de teste (você pode alterar para a senha da diretoria)
+            if (pin === "1234" || pin === "admin") {
+                localStorage.setItem('userLogged', 'Diretoria');
+                document.getElementById('userLoggedName').innerText = 'Diretoria';
+                document.getElementById('userLoggedRole').innerText = 'Acesso Total';
+                document.getElementById('btnLoginLogout').innerText = 'Sair';
+                document.getElementById('pinStatusDot').className = 'w-2.5 h-2.5 bg-green-500 rounded-full';
+                
+                // Exibe abas restritas
+                document.querySelectorAll('.nav-restrito').forEach(el => el.classList.remove('hidden'));
+                
+                closeModal('modalLogin');
+                document.getElementById('loginPin').value = '';
+                alert('Login efetuado com sucesso!');
+            } else {
+                alert('Senha/PIN incorreto!');
+            }
+        }
+
+        // Funções de Controle de Modais e Menu
+        function openModal(id) {
+            document.getElementById(id)?.classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id)?.classList.add('hidden');
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('-translate-x-full');
+        }
+
+        function switchTab(tabId) {
+            const sections = ['tab-dashboard', 'tab-membros', 'tab-eventos', 'tab-reuniao', 'tab-financeiro', 'tab-aniversarios', 'tab-passeios'];
+            sections.forEach(s => {
+                const el = document.getElementById(s);
+                if (el) el.classList.add('hidden');
+            });
+            const target = document.getElementById('tab-' + tabId);
+            if (target) target.classList.remove('hidden');
+            
+            // Fecha menu no mobile se estiver aberto
+            if (window.innerWidth < 768) {
+                document.getElementById('sidebar').classList.add('-translate-x-full');
+            }
+        }
+    </script>
 </body>
 </html>
